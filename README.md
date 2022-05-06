@@ -16,6 +16,19 @@ Contributors:
 ## Installation & Usage
 
 ### Installation 
+- Clone the repo
+- Open terminal and navigate to the `fp-Just-pick-one` folder
+
+## Server
+- Run `pipenv install` to install packages
+- Run `pipenv shell` to create a virtual environment
+- Cd into the **api** folder
+- Run `python manage.py runserver` to run the server
+
+## Client
+- Cd into the **client** folder
+- Run `npm install` to install dependencies
+- Run `npm run dev` to run the scripts
 
 ### Usage
 
