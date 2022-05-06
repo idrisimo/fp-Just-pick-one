@@ -1,5 +1,10 @@
 # fp-Just-pick-one
 
+Contributors:
+* [Isabel Repetto](https://github.com/neifors)
+* [Idris Silva](https://github.com/idrisimo)
+* [Paul Dobrescu](https://github.com/PaulNKD)
+* [Heather McGlynn](https://github.com/HevvsOlivia)
 
 ## Project Description
 
