@@ -1,20 +1,16 @@
-from urllib import response
-from django.shortcuts import render
-from rest_framework.generics import GenericAPIView
-from .serializers import UserSerializer
+from rest_framework import generics,status
+from .serializers import RegisterSerializer
 from rest_framework.response import Response
-from rest_framework import status
 
-# Create your views here.
-class RegisterView(GenericAPIView):
+class RegisterView(generics.GenericAPIView):
    
-   serializer_class= UserSerializer
+   serializer_class=RegisterSerializer
    
-   def post(self,request):
-      serializer=UserSerializer(data=request.data)
+   def post(self, request):
+      user = request.data
+      serializer=self.serializer_class(data=user)
+      serializer.is_valid(raise_exception=True)
+      serializer.save()
+      user_data=serializer.data
       
-      if serializer.is_valid():
-         serializer.save()
-         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-      return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+      return Response(user_data,status=status.HTTP_201_CREATED)
