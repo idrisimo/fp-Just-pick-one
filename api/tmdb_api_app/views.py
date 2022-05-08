@@ -1,16 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 import requests
 import environ
-
+import os
 # Initialise environmental variables
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 env = environ.Env()
-environ.Env.read_env()
-
+environ.Env.read_env(os.path.join(BASE_DIR, 'api/.env'))
 
 def get_movie_data(req):
     choices = {'genre':'1',
         'adult':'false',
-        'language':'en',
+        'language':'en-gb',
         'release_date_start':'',
         'release_data_end':'',
         'watch_providers':'',
@@ -35,7 +35,7 @@ def get_movie_data(req):
         
     
     base_url = 'https://api.themoviedb.org/3/discover/movie?'
-    api_key = env('TMDB_KEY')
+    api_key = f"api_key={env('TMDB_KEY')}"
     # response = requests.get(f'{base_url}{api_key}{query_string}')
     print(f'{base_url}{api_key}{query_string}')
-    
+    return HttpResponse(f'{base_url}{api_key}{query_string}')
