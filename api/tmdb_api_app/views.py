@@ -7,15 +7,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, 'api/.env'))
 
-def get_movie_data(req):
-    choices = {'genre':'',
-        'adult':'',
-        'language':'',
-        'release_date_start':'',
-        'release_data_end':'',
-        'watch_providers':'',
-        'region':'',
-        'pages':''}
+def get_movie_data(req, choices):
+    
     options = {
         'genre':'&with_genres=',
         'adult':'&include_adult=',
@@ -31,11 +24,12 @@ def get_movie_data(req):
         if value != '':
             query_string = f'{query_string}{options[key]}{value}'
         
-    
-    base_url = 'https://api.themoviedb.org/3/discover/movie?'
-    api_key = f"api_key={env('TMDB_KEY')}"
-    print(f'{base_url}{api_key}{query_string}')
-    response = requests.get(f'{base_url}{api_key}{query_string}')
-    data = response.json()
 
-    return HttpResponse(data['results'])
+    try: 
+        base_url = 'https://api.themoviedb.org/3/discover/movie?'
+        api_key = f"api_key={env('TMDB_KEY')}"
+        response = requests.get(f'{base_url}{api_key}{query_string}')
+        data = response.json()
+        return HttpResponse(data['results'])
+    except Exception as err:
+        return HttpResponse(err)
