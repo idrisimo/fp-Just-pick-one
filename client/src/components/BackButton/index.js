@@ -6,7 +6,7 @@ export function BackButton() {
 
     return(
         <div id="backBtnNav">
-            <button class="backBtn" onClick={() => goBack(-1)} style={{cursor: 'pointer'}}>Go Back</button>
+            <button className="backBtn" onClick={() => goBack(-1)} style={{cursor: 'pointer'}}>Go Back</button>
         </div>
     )
 }
