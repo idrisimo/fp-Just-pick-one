@@ -32,13 +32,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # we need to define what attribute the user will be using to login
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ['email','password']
     
     objects = UserManager()
 
    
     def __str__(self):
-        return self.email
+        return self.username
     
     def tokens(self):
         refresh = RefreshToken.for_user(self)
