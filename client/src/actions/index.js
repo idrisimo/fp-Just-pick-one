@@ -2,15 +2,12 @@ import React from "react";
 //import jwt_decode from "jwt-decode"; //look at this later
 import axios from "axios";
 
-export const loginFunction = async (e) => {
+export const loginFunction = async (formInput) => {
     try {
-        const userData = {
-            username: e.target.username.value,
-            password: e.target.password.value
-        }
-
-        const response = await axios.post('http://localhost:8000/auth/login', userData) 
+        console.log(formInput)
+        const response = await axios.post('http://localhost:8000/auth/login/', formInput) 
         const data = await response.data
+        console.log(data)
         if (data.err){
             throw Error(data.err)
         }
