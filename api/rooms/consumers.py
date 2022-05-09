@@ -16,6 +16,14 @@ class ChatConsumer(WebsocketConsumer):
             self.channel_name
         )
         self.accept()
+        # async_to_sync(self.channel_layer.group_send)(
+        #     self.room_group_name,
+        #     {
+        #         'type': 'known_user',
+        #         'userList': 'hello world'
+        #     }
+        # )
+        
         self.send(text_data=json.dumps({'type': 'connection_established', 'message': 'You are now connected!'}))
 
     def disconnect(self, close_code):
@@ -28,18 +36,30 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        username = text_data_json['username']
+        print('receive text_data_json',text_data_json)
+
         
         # Send info to room group
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'username':username,
-                'message': message
-            }
-        )
+        if text_data_json['type'] == 'chat_message':
+            message = text_data_json['message']
+            username = text_data_json['username']
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_group_name,
+                {
+                    'type': 'chat_message',
+                    'username':username,
+                    'message': message
+                }
+            )
+        elif text_data_json['type'] == 'known_users':
+            userList = text_data_json['userList']
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_group_name,
+                {
+                    'type':'known_users',
+                    'userList':userList
+                }
+            )
 
     # Receive message from room group
     def chat_message(self, event):
@@ -51,3 +71,9 @@ class ChatConsumer(WebsocketConsumer):
             'username':username,
             'message': message
         }))
+
+    # Users
+    def known_users(self, event):
+        print('known users event: ',event)
+        userList = event['userList']
+        self.send(text_data=json.dumps({'userList':userList}))
