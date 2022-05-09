@@ -20,19 +20,16 @@ export const loginFunction = async (formInput) => {
 
 
 function login(data) {
-    localStorage.setItem("token", data.token)
+    localStorage.setItem("token", data.tokens)
+    localStorage.setItem('username',data.username)
 }
 
 
 
-export const registerFunction = async(e) => {
+export const registerFunction = async(formInput) => {
     try {
-        const userData = {
-            username: e.target.username.value,
-            password: e.target.password.value
-        }
 
-        const response = await axios.post('http://localhost:8000/auth/register/', userData)
+        const response = await axios.post('http://localhost:8000/auth/register/', formInput)
         const data = await response.data
         if (data.err){
             throw Error(data.err)

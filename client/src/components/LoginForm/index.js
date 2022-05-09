@@ -25,7 +25,7 @@ export function LoginForm() {
                 console.log(formInput)
                 const login = await loginFunction(formInput);
                 console.log(login)
-                if(login === "Successful login") {
+                if(login === "Successful Login") {
                     navigateTo("/UserAccount")
                 } else {
                     throw new Error(login)

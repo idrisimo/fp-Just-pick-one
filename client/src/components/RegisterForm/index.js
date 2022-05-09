@@ -26,10 +26,12 @@ export function RegisterForm() {
 
     
     const handleSubmit = async(e) => {
-        e.prevent.default();
+        e.preventDefault();
         try{
             setLoading(true);
+            console.log(formInput)
             const register = await registerFunction(formInput)
+            console.log(register)
             if (register === "Successful registration"){
             await loginFunction(formInput)
             navigateTo('/UserAccount')
