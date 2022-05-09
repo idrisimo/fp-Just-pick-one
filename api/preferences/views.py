@@ -1,9 +1,7 @@
-from urllib import request
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView
 from .serializers import PreferencesSerializer
 from .models import Preferences
 from rest_framework import permissions
-from .permissions import IsOwner
 
 # Create your views here.
 class PreferencesListAPIView(ListCreateAPIView):
