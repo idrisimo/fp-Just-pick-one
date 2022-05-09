@@ -44,7 +44,7 @@ export function LoginForm() {
             <input type="text" aria-label="Username" name="username" onChange={updateInput} required />
             <label htmlFor="Password">Password:</label>
             <input type="password" aria-label="Password" name="password" onChange={updateInput} required/>
-            <input type="submit" className="submitBtn" value="Login"/>
+            <input type="submit" className="submitBtn" value="Login" style={{cursor: 'pointer'}}/>
             <p id="change" onClick={() => navigateTo('/Register')} style={{cursor: 'pointer'}}>Don't have an account yet? Register here!</p>
         </form>
         {loading && (
