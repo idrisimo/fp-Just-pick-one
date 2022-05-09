@@ -5,4 +5,4 @@ class PreferencesSerializer(serializers.ModelSerializer):
    
    class Meta:
       model=Preferences
-      fields = ['user','genre','year','country','platform']
+      fields = ['id','genre','year','country','platform']

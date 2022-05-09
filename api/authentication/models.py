@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from rest_framework_simplejwt.tokens import RefreshToken
+from preferences.models import Preferences
 
 class UserManager(BaseUserManager):
    
@@ -29,6 +30,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, db_index=True)
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     is_staff = models.BooleanField(default=False)
+    preferences = models.ForeignKey(Preferences, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     # we need to define what attribute the user will be using to login
     USERNAME_FIELD = 'username'
