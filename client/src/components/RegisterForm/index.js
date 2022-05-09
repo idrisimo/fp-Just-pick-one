@@ -34,7 +34,7 @@ export function RegisterForm() {
             console.log(register)
             if (register === "Successful registration"){
             await loginFunction(formInput)
-            navigateTo('/UserAccount')
+            navigateTo('/Login')
             } else {
                 setErrorMessage('User already exists!')
             }
