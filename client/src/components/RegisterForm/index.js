@@ -34,7 +34,7 @@ export function RegisterForm() {
             console.log(register)
             if (register === "Successful registration"){
             await loginFunction(formInput)
-            navigateTo('/UserAccount')
+            navigateTo('/Login')
             } else {
                 setErrorMessage('User already exists!')
             }
@@ -63,7 +63,7 @@ export function RegisterForm() {
             <label htmlFor="ConfirmPassword">Confirm Password:</label>
             <input type="password" aria-label="ConfirmPassword" name="confirmPassword" required onChange={updateInput} pattern={password}/>
 
-            <input type="submit" className="submitBtn" value="Login" />
+            <input type="submit" className="submitBtn" value="Register" style={{cursor: 'pointer'}}/>
 
             <p id="change" onClick={() => navigateTo('/Login')} style={{cursor: 'pointer'}}>Already have an account? Login here!</p>
 
