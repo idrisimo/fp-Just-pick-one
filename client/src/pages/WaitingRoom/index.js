@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { w3cwebsocket as W3CWebSocket } from 'websocket'
-
+import { BackButton } from "../../components";
 
 export function WaitingRoom() {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -14,10 +14,6 @@ export function WaitingRoom() {
     useEffect(() => {
         client.onopen = () => {
             console.log('Websocket client connected')
-            // client.send(JSON.stringify({
-            //     type:'known_users',
-            //     userList: userList
-            // }))
         }
 
         client.onmessage = (message) => {
@@ -42,12 +38,11 @@ export function WaitingRoom() {
             message: value,
             username: username
         }))
-        // setValue('')
+
         e.preventDefault()
     }
 
     const joinRoomHandler = (e) => {
-        // console.log('userlist: ',userList)
         let newList = userList
         newList.push(username)
         setUserList(newList)
@@ -63,7 +58,6 @@ export function WaitingRoom() {
         <div>
             {isLoggedIn ?
                 // Chatroom
-                
                 <div>
                     <h3>Connected Users</h3>
                     <ul>
@@ -97,6 +91,7 @@ export function WaitingRoom() {
                     }}></input>
                 </div>
             }
+            <BackButton />
         </div>
     )
 }

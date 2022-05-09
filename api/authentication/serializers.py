@@ -8,17 +8,17 @@ class RegisterSerializer(serializers.ModelSerializer):
    
    class Meta:
       model=User
-      fields=['email','username','password']
+      fields=('__all__')
       
    def validate(self,attrs):
-      username = attrs.get('username','')
+      username = attrs.get('username','')     
       
       if not username.isalnum():
          raise serializers.ValidationError('The username should only contain alphanumeric characters')
       return attrs
 
    def create(self,validated_data):
-      return User.objects.create(**validated_data)
+      return User.objects.create_user(**validated_data)
    
 class LoginSerializer(serializers.ModelSerializer):
    email = serializers.EmailField(max_length=255, read_only=True)

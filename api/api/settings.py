@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+    'http://127.0.0.1:8080'
+]
+
 AUTH_USER_MODEL='authentication.User'
 
 # Application definition
@@ -45,10 +50,16 @@ INSTALLED_APPS = [
     # Custom
     'authentication',
     'tmdb_api_app',
+<<<<<<< HEAD
     'rooms'
+=======
+    'preferences',
+    'corsheaders',
+>>>>>>> aae6af946f65e8e68960748485464eaf72eb8813
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

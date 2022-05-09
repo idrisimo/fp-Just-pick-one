@@ -1,7 +1,6 @@
 from rest_framework import generics,status
 from .serializers import RegisterSerializer, LoginSerializer
 from rest_framework.response import Response
-from .models import User
 
 class RegisterView(generics.GenericAPIView):
    

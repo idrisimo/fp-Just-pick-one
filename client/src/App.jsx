@@ -2,7 +2,7 @@ import React from "react";
 import  {Routes, Route } from 'react-router-dom';
 import { EditPreferences, FilmSwipe, Filters, Home, HowItWorks,
          Login, Randomiser, RandomMatch, Register, StreamingService, 
-         UsedPreferences, UserAccount, UserMatch, WaitingRoom } from './pages';
+         UsedPreferences, UserAccount, UserMatch, WaitingRoom, HostWaitingRoom } from './pages';
 
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
                     <Route path="/FilmSwipe" element={<FilmSwipe />}/>
                     <Route path="/Filters" element={<Filters />}/>
                     <Route path="/" element={<Home />}/>
+                    <Route path="/HostWaitingRoom" element={<HostWaitingRoom />}/>
                     <Route path="/HowItWorks" element={<HowItWorks />}/>
                     <Route path="/Login" element={<Login />} />
                     <Route path="/Randomiser" element={<Randomiser />}/>
