@@ -38,9 +38,9 @@ class ChatConsumer(WebsocketConsumer):
         text_data_json = json.loads(text_data)
         print('receive text_data_json',text_data_json)
 
-        
+        # TODO Look at using switch statements here instead, it will help make  this code a little more organised
         # Send info to room group
-        if text_data_json['type'] == 'chat_message':
+        if text_data_json['type'] == 'message':
             message = text_data_json['message']
             username = text_data_json['username']
             async_to_sync(self.channel_layer.group_send)(

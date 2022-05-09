@@ -28,7 +28,6 @@ export function WaitingRoom() {
                     msg: dataFromServer.message,
                     username: dataFromServer.username,
                 }))
-                console.log(dataFromServer['userList'])
                 if(dataFromServer['userList']) {
                     setUserList(dataFromServer['userList'])
                 }
@@ -43,7 +42,7 @@ export function WaitingRoom() {
             message: value,
             username: username
         }))
-        setValue('')
+        // setValue('')
         e.preventDefault()
     }
 
@@ -64,21 +63,34 @@ export function WaitingRoom() {
         <div>
             {isLoggedIn ?
                 // Chatroom
+                
                 <div>
-                    {messages.map(message => <div key={Math.random()}><p>{message['username']}</p><p>{message['msg']}</p></div>)}<br></br>
-                    <input id="chat-message-input" type="text" size="100" value={value} onChange={e => setValue(e.target.value)}></input><br></br>
+                    <h3>Connected Users</h3>
+                    <ul>
+                    {userList.map(user => 
+                        <li key={Math.random()}>{user}</li>  
+                    )}
+                    </ul>
+
+                    {messages.map(message => 
+                    <div key={Math.random()}>
+                        <p>{message['username']}</p>
+                        <p>{message['msg']}</p>
+                    </div>
+                    )}
+                    <br></br>
+                    <input id="chat-message-input" type="text" size="100"  onChange={e => setValue(e.target.value)}></input>
+                    <br></br>
                     <input id="chat-message-submit" type="button" value="Send" onClick={onButtonClicked}></input>
                 </div>
                 :
                 // Lobby Selection
                 <div>
                     What chat room would you like to enter?<br></br>
-                    <input id="username" type="text" size="20" onChange={e =>
-                        setUsername(e.target.value)
-                    }></input><br></br>
-                    <input id="room-name-input" type="text" size="20" onChange={e =>
-                        setRoomCode(e.target.value)
-                    }></input><br></br>
+                    <input id="username" type="text" size="20" onChange={e =>setUsername(e.target.value)}></input>
+                    <br></br>
+                    <input id="room-name-input" type="text" size="20" value={roomCode ?? ''} onChange={e =>setRoomCode(e.target.value)}></input>
+                    <br></br>
                     <input id="room-name-submit" type="button" value="Enter" onClick={(e) => {
                         setIsLoggedIn(true)
                         joinRoomHandler(e)
