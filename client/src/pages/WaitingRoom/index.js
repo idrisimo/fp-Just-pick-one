@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { w3cwebsocket as W3CWebSocket } from 'websocket'
-import { BackButton } from "../../components";
+import { BackButton, UserCard } from "../../components";
 
 export function WaitingRoom() {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -62,7 +62,7 @@ export function WaitingRoom() {
                     <h3>Connected Users</h3>
                     <ul>
                     {userList.map(user => 
-                        <li key={Math.random()}>{user}</li>  
+                        <UserCard key={Math.random()} username={username}/>
                     )}
                     </ul>
 

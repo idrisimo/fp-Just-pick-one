@@ -46,21 +46,14 @@ INSTALLED_APPS = [
     # Third Party
     'channels',
     'rest_framework',
-    
+    'corsheaders',
     # Custom
     'authentication',
     'tmdb_api_app',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'rooms'
-=======
+    'rooms',
     'preferences',
-    'corsheaders',
->>>>>>> aae6af946f65e8e68960748485464eaf72eb8813
-=======
-    'preferences',
-    'corsheaders',
->>>>>>> aae6af946f65e8e68960748485464eaf72eb8813
+
+
 ]
 
 MIDDLEWARE = [

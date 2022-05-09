@@ -20,13 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('authentication.urls')),
     path('get_movies/', include('tmdb_api_app.urls')),
-<<<<<<< HEAD
-<<<<<<< HEAD
     path('rooms/', include('rooms.urls')),
-=======
     path('preferences/', include('preferences.urls'))
->>>>>>> aae6af946f65e8e68960748485464eaf72eb8813
-=======
-    path('preferences/', include('preferences.urls'))
->>>>>>> aae6af946f65e8e68960748485464eaf72eb8813
 ]
