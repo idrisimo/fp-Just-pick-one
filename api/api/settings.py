@@ -51,7 +51,12 @@ INSTALLED_APPS = [
     'authentication',
     'tmdb_api_app',
 <<<<<<< HEAD
+<<<<<<< HEAD
     'rooms'
+=======
+    'preferences',
+    'corsheaders',
+>>>>>>> aae6af946f65e8e68960748485464eaf72eb8813
 =======
     'preferences',
     'corsheaders',
