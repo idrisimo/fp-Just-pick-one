@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'authentication',
-    'tmdb_api_app'
+    'tmdb_api_app',
+    'preferences'
 ]
 
 MIDDLEWARE = [
