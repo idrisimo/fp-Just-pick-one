@@ -1,5 +1,6 @@
 import React from "react";
 import  {Routes, Route } from 'react-router-dom';
+import './App.css';
 import { EditPreferences, FilmSwipe, Filters, Home, HowItWorks,
          Login, Randomiser, RandomMatch, Register, StreamingService, 
          UsedPreferences, UserAccount, UserMatch, WaitingRoom } from './pages';
