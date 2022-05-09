@@ -18,7 +18,7 @@ export function UsedPreferences() {
         try{
             console.log(players)
             e.preventDefault();
-            navigateTo('/WaitingRoom')
+            navigateTo('/HostWaitingRoom')
         } catch(err){
             setError(err.message)
         }
