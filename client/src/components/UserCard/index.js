@@ -7,7 +7,7 @@ export const UserCard = ({ username }) => {
         <div>
             <h3>{username}</h3>
             <br></br>
-            <button ></button>
+            <button>Ready?</button>
         </div>
     )
 }

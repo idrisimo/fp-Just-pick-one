@@ -62,7 +62,7 @@ export function WaitingRoom() {
                     <h3>Connected Users</h3>
                     <ul>
                     {userList.map(user => 
-                        <UserCard key={Math.random()} username={username}/>
+                        <UserCard key={Math.random()} username={user}/>
                     )}
                     </ul>
 
