@@ -4,37 +4,46 @@ import { loginFunction } from "../../actions";
 
 export function LoginForm() {
 
-    const goTo = useNavigate();
+    const navigateTo = useNavigate();
 
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
+    const [formInput, setFormInput] = useState({username:"", password:""});
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState();
+
+    
+
+    const updateInput = e => {
+        const input = e.target.value;
+        return setFormInput((prev) => ({ ...prev, [e.target.name]:input }))
+    }
+
 
     const handleSubmit = async(e) => {
-        e.preventDefault();
-        await loginFunction(e);
+            e.preventDefault();
+            try {
+                setLoading(true);
+                const login = await loginFunction(formInput);
+                if(login === "Successful login") {
+                    navigateTo("/UserAccount")
+                } else {
+                    throw new Error(login)
+                }
+            } catch(err) {
+                setLoading(false)
+                setError(err.message)
+            }
     }
 
-    const updateUsername = e => {
-        const input = e.target.value;
-        setUsername(input)
-    }
-
-    const updatePassword = e => {
-        const input = e.target.value;
-        setPassword(input)
-        console.log(setPassword)
-    }
 
     return(
         <>
         <form aria-label="form" id="loginForm" onSubmit={handleSubmit}>
             <label htmlFor="Username">Username:</label>
-            <input type="text" aria-label="Username" name="username" required onChange={updateUsername}/>
+            <input type="text" aria-label="Username" name="username" required onChange={updateInput}/>
             <label htmlFor="Password">Password:</label>
-            <input type="password" aria-label="Password" name="password" required onChange={updatePassword}/>
+            <input type="password" aria-label="Password" name="password" required onChange={updateInput}/>
             <input type="submit" className="submitBtn" value="Login"/>
-            <p id="change" onClick={() => goTo('/Register')} style={{cursor: 'pointer'}}>Don't have an account yet? Register here!</p>
+            <p id="change" onClick={() => navigateTo('/Register')} style={{cursor: 'pointer'}}>Don't have an account yet? Register here!</p>
         </form>
         {loading && (
             <div id="loading">

@@ -9,14 +9,15 @@ export const loginFunction = async (e) => {
             password: e.target.password.value
         }
 
-        const response = await axios.post('http://127.0.0.1:8000/Login', userData) //change on deployment - not currently working
+        const response = await axios.post('http://localhost:8000/auth/login', userData) 
         const data = await response.data
         if (data.err){
             throw Error(data.err)
         }
         login(data)
+        return "Successful Login"
     } catch(err) {
-        console.warn(err);
+       return err.message
     }
 }
 
@@ -30,16 +31,17 @@ function login(data) {
 export const registerFunction = async(e) => {
     try {
         const userData = {
-            username: e.taget.username.value,
+            username: e.target.username.value,
             password: e.target.password.value
         }
 
-        const response = await axios.post('http://127.0.0.1:8000/Register', userData)
+        const response = await axios.post('http://localhost:8000/auth/register/', userData)
         const data = await response.data
         if (data.err){
             throw Error(data.err)
         }
+        return "Successful registration"
     } catch(err) {
-        console.warn(err)
+        return err.message
     }
 }
