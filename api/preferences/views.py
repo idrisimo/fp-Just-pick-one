@@ -11,8 +11,12 @@ class PreferencesListAPIView(ListCreateAPIView):
    
    def perform_create(self, serializer):
       user = self.request.user
+      if user.preferences:
+         old_pref = user.preferences
       user.preferences = serializer.save()
       user.save()
+      pref_to_delete=Preferences.objects.get(id=old_pref.id)
+      pref_to_delete.delete()
       return user.preferences
    
    def get_all(self):
