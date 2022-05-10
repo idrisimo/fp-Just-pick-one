@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { loginFunction } from "../../actions";
+import { useLogin } from "../../context/LoginProvider";
 
 export function LoginForm() {
 
     const navigateTo = useNavigate();
+    const {setIsLoggedIn} = useLogin()
 
     const [formInput, setFormInput] = useState({username:"", password:""});
     const [loading, setLoading] = useState(false);
@@ -27,6 +29,7 @@ export function LoginForm() {
                 console.log(login)
                 if(login === "Successful Login") {
                     navigateTo("/UserAccount")
+                    setIsLoggedIn(true)
                 } else {
                     throw new Error(login)
                 }
