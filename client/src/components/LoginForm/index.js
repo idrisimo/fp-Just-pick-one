@@ -59,7 +59,7 @@ export function LoginForm() {
           )}
 
             {loading && (
-            <div data-testid="loading">
+            <div data-testid="loading" id="loading">
                 Logging in . . .
             </div>
         )}
