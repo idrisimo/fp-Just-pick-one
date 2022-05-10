@@ -9,8 +9,9 @@ djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 requests = "*"
 django-environ = "*"
-windows-curses = "*"
 django-cors-headers = "*"
+gunicorn = "*"
+channels-redis = "*"
 
 [dev-packages]
 

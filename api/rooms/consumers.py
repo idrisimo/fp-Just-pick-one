@@ -1,6 +1,5 @@
 # chat/consumers.py
 import json
-from pprint import pprint
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
