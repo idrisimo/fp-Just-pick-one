@@ -3,11 +3,25 @@ import TinderCard from 'react-tinder-card'
 import './FilmSwipe.css'
 import { Card, CardMedia, Container } from '@mui/material';
 import useAxios from "../../hooks/useAxios";
+import useAxiosPost from "../../hooks/useAxiosPost";
 
 export function FilmSwipe() {
 
-    const { response, error, loading } = useAxios({ url: "http://127.0.0.1:8000/get_movies/" })
+    // const { response, error, loading } = useAxios({ url: "http://127.0.0.1:8000/get_movies/" })
+    const { response, error, loading } = useAxiosPost({ 
+        url: "http://127.0.0.1:8000/get_movies/",
+        header: JSON.stringify({
+            "Access-Control-Allow-Origin":"*"
+        }),
+        body: JSON.stringify({
+            genre: '35'
+        }) 
+    })
+
+
     console.log(response)
+
+
     const [lastDirection, setLastDirection] = useState('')
     const [movieData, setMovieData] = useState([])
     const [likedMovies, setLikedMovies] = useState([])
@@ -40,7 +54,7 @@ export function FilmSwipe() {
                         <Card className="card">
                             <CardMedia component="img"
                             height="100%"
-                            image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}/>
+                            image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}/>
                             <h4 className="overlay">{movie.title}</h4>
                             {/* Buttons */}
                         </Card>

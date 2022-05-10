@@ -1,4 +1,4 @@
-/** @jest-environment jsdom */
+/* @jest-environment jsdom */
 import { screen, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom';
@@ -21,14 +21,12 @@ describe('LoginForm', () => {
         expect(form).toBeInTheDocument();
     })
 
-    test('updates password state on user typing', () => {
-        const password = screen.getByLabelText('Password')
-        userEvent.type(password, 'h')
+    test('updates password state on user typing', async() => {
+        const password =  screen.getByLabelText('Password')
+        await waitFor(()=>userEvent.type(password, 'h'))
         expect(password).toHaveValue('h')
-        userEvent.type(password, 'e')
-        expect(password.value).toHaveValue('he')
-        userEvent.type(password, 'y')
-        expect(password).toHaveValue('hey')
+        await waitFor(()=>userEvent.type(password, 'e'))
+        expect(password.value).toBe('he')
     })
 
   
@@ -36,8 +34,8 @@ describe('LoginForm', () => {
         
     })
 
-    test('onSubmit is called when submit button is clicked', () => {
-        userEvent.click(screen.getByRole('button'))
+    test('onSubmit is called when submit button is clicked', async() => {
+        await waitFor(()=>userEvent.click(screen.getByRole('button')))
         expect(onSubmit).toHaveBeenCalledTimes(1)
         
     })

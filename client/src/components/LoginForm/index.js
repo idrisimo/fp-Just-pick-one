@@ -51,7 +51,10 @@ export function LoginForm() {
             <input type="submit" className="submitBtn" value="Login" style={{cursor: 'pointer'}}/>
             <p id="change" onClick={() => navigateTo('/Register')} style={{cursor: 'pointer'}}>Don't have an account yet? Register here!</p>
             </main>
-
+            <div>
+      <label htmlFor="my-input">Example:</label>
+      <input id="my-input" type="text" value="This is a bad example" />
+    </div>,
             {error && (
             <div data-testid="error" id="error">
               Incorrect Username or Password
