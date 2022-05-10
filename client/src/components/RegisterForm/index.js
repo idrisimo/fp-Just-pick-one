@@ -1,12 +1,21 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { loginFunction, registerFunction } from "../../actions";
+import { PasswordValidator } from "../PasswordValidator";
+
+
+const isNumberRegx = /\d/;
 
 export function RegisterForm() {
 
     const navigateTo = useNavigate();
 
     const [password, setPassword] = useState();
+    const [passwordFocused, setPasswordFocused] = useState(false)
+    const [passwordValidity, setPasswordValidity] = useState({
+        minChar: null, 
+       
+    })
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState();
     const [formInput, setFormInput] = useState({
@@ -19,6 +28,10 @@ export function RegisterForm() {
     
     const updateInput = e => {
         setPassword(formInput.password);
+        setPasswordValidity({
+            minChar: formInput.password.length >= 7 ? true : false,
+           
+        })
         setError();
         const input = e.target.value;
         return setFormInput((prev) => ({ ...prev, [e.target.name]: input }))
@@ -36,11 +49,12 @@ export function RegisterForm() {
             await loginFunction(formInput)
             navigateTo('/Login')
             } else {
-                setErrorMessage('User already exists!')
+                throw new Error('User already exists!')
             }
         } catch(err) {
             setLoading(false)
             setError(err.message)
+            
         }
     }
 
@@ -58,7 +72,8 @@ export function RegisterForm() {
             <input type="email" aria-label="Email" name="email" required onChange={updateInput}/>
 
             <label htmlFor="Password">Password:</label>
-            <input type="password" aria-label="Password" name="password" required onChange={updateInput}/>
+            <input type="password" aria-label="Password" name="password" required onFocus={() => setPasswordFocused(true)} onChange={updateInput}/>
+            { passwordFocused && <PasswordValidator validity={passwordValidity} />}
 
             <label htmlFor="ConfirmPassword">Confirm Password:</label>
             <input type="password" aria-label="ConfirmPassword" name="confirmPassword" required onChange={updateInput} pattern={password}/>
@@ -68,7 +83,9 @@ export function RegisterForm() {
             <p id="change" onClick={() => navigateTo('/Login')} style={{cursor: 'pointer'}}>Already have an account? Login here!</p>
 
         </form>
-        
+        {/* {error && (
+            {error}
+        )} */}
         {loading && (
             <div id="loading">
                 Registering Account . . .
