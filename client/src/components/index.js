@@ -7,3 +7,4 @@ export { LogoutButton } from './LogoutButton';
 export { UserCard } from './UserCard';
 export { MatchCard } from './MatchCard';
 export { RandomMatchCard } from'./RandomMatchCard';
+export { PasswordValidator } from './PasswordValidator';
