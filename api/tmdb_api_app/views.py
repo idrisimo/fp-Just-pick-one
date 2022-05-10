@@ -4,6 +4,8 @@ import requests
 import environ
 import os
 from rest_framework.response import Response
+
+
 # Initialise environmental variables
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 env = environ.Env()
@@ -22,8 +24,8 @@ def get_movie_data(req):
         'pages': '&page='
     }
 
-    if req.method == 'POST':
-        choices = req.POST.dict()
+    if req.method == 'GET':
+        choices = req.GET.dict()
 
         query_string = ''
         

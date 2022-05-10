@@ -17,6 +17,9 @@
     "react-dom": "^18.1.0"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.6.4",
     "@babel/core": "^7.17.10",
     "@babel/plugin-transform-runtime": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
@@ -31,6 +34,7 @@
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
     "react-router-dom": "^6.3.0",
+    "react-tinder-card": "^1.4.5",
     "socket.io-client": "^4.5.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.72.0",
