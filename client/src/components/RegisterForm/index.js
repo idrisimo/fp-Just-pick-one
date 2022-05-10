@@ -49,7 +49,7 @@ export function RegisterForm() {
             await loginFunction(formInput)
             navigateTo('/Login')
             } else {
-                throw new Error('User already exists!')
+                throw new Error('Unsuccessful registration')
             }
         } catch(err) {
             setLoading(false)
@@ -65,6 +65,7 @@ export function RegisterForm() {
 
         <form aria-label="registerForm" id="regForm" onSubmit={handleSubmit}>
 
+            <main>
             <label htmlFor="Username">Username:</label>
             <input type="text" aria-label="Username" name="username" required onChange={updateInput}/>
 
@@ -81,16 +82,22 @@ export function RegisterForm() {
             <input type="submit" className="submitBtn" value="Register" style={{cursor: 'pointer'}}/>
 
             <p id="change" onClick={() => navigateTo('/Login')} style={{cursor: 'pointer'}}>Already have an account? Login here!</p>
+            </main>
 
-        </form>
-        {/* {error && (
-            {error}
-        )} */}
+            {error && (
+                <div data-testid="error" id="error">
+                    {error}
+                </div>
+            )}
+
         {loading && (
             <div id="loading">
                 Registering Account . . .
             </div>
         )}
+
+        </form>
+      
 
         </>
     )
