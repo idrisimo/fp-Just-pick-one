@@ -22,17 +22,19 @@ describe('LoginForm', () => {
     })
 
     test('updates password state on user typing', async() => {
-        const password =  screen.getByLabelText('Password')
+        const password = screen.getByLabelText('Password')
         await waitFor(()=>userEvent.type(password, 'h'))
         expect(password).toHaveValue('h')
         await waitFor(()=>userEvent.type(password, 'e'))
-        expect(password.value).toBe('he')
+        expect(password).toHaveValue('he')
+        await waitFor(()=>userEvent.type(password, 'y'))
+        expect(password).toHaveValue('hey')
     })
 
   
-    test('password validation checker turns green when at least 8 characters are entered', () => {
+    // test('password validation checker turns green when at least 8 characters are entered', () => {
         
-    })
+    // })
 
     test('onSubmit is called when submit button is clicked', async() => {
         await waitFor(()=>userEvent.click(screen.getByRole('button')))
