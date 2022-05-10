@@ -1,5 +1,6 @@
 import React from "react";
 import  {Routes, Route } from 'react-router-dom';
+import { LoginProvider } from "./context/LoginProvider";
 import { EditPreferences, FilmSwipe, Filters, Home, HowItWorks,
          Login, Randomiser, RandomMatch, Register, StreamingService, 
          UsedPreferences, UserAccount, UserMatch, WaitingRoom, HostWaitingRoom } from './pages';
@@ -9,6 +10,7 @@ function App() {
 
     return (
         <>
+        <LoginProvider>
         <div id='app'>
             <main>
             <h1>Just Pick One</h1>
@@ -33,6 +35,7 @@ function App() {
                 </Routes>
             </main>
         </div>
+        </LoginProvider>
         </>
     )
 };
