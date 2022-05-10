@@ -9,7 +9,8 @@ export function WaitingRoom() {
     const [username, setUsername] = useState('')
     const [roomCode, setRoomCode] = useState('test')
     const [userList, setUserList] = useState([])
-    const client = new W3CWebSocket(`ws://127.0.0.1:8000/ws/rooms/${roomCode}/`)
+    // const client = new W3CWebSocket(`ws://127.0.0.1:8000/ws/rooms/${roomCode}/`)
+    const client = new W3CWebSocket(`ws://just-pick-1-api.herokuapp.com/ws/rooms/${roomCode}/`)
 
     useEffect(() => {
         client.onopen = () => {
