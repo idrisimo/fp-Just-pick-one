@@ -26,8 +26,13 @@ SECRET_KEY = 'django-insecure-vcmi$b2!0wv)_xpe0j0p1u2o%dndr1ppyz9muk6n(=l=+^t(0)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['just-pick-1-api.herokuapp.com','127.0.0.1:8080']
+ALLOWED_HOSTS = [
+    'just-pick-1-api.herokuapp.com',
+    '127.0.0.1:8080',
+    'localhost:8080'
+]
 
+CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ALLOWED_ORIGINS = [
 #     'https://just-pick-1-api.herokuapp.com/'
 #     'http://localhost:8080',
@@ -66,7 +71,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    # 'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
