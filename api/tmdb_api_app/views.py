@@ -1,4 +1,3 @@
-from urllib import request
 from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
 import requests
