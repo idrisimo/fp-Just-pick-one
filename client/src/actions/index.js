@@ -4,8 +4,9 @@ import axios from "axios";
 
 export const loginFunction = async (formInput) => {
     try {
+        
         console.log(formInput)
-        const response = await axios.post('http://localhost:8000/auth/login/', formInput) 
+        const response = await axios.post('https://just-pick-1-api.herokuapp.com/auth/login/', formInput) 
         const data = await response.data
         console.log(data)
         if (data.err){
@@ -29,7 +30,7 @@ function login(data) {
 export const registerFunction = async(formInput) => {
     try {
 
-        const response = await axios.post('http://localhost:8000/auth/register/', formInput)
+        const response = await axios.post('https://just-pick-1-api.herokuapp.com/auth/register/', formInput)
         const data = await response.data
         if (data.err){
             throw Error(data.err)
