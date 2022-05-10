@@ -43,11 +43,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third Party
+    'channels',
     'rest_framework',
+    'corsheaders',
+    # Custom
     'authentication',
     'tmdb_api_app',
+    'rooms',
     'preferences',
-    'corsheaders',
+
+
 ]
 
 MIDDLEWARE = [
@@ -139,3 +145,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Channels
+ASGI_APPLICATION = 'api.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
