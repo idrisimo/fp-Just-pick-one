@@ -10,7 +10,7 @@ function App() {
 
     return (
         <>
-        <LoginProvider>
+     
         <div id='app'>
             <main>
             <h1>Just Pick One</h1>
@@ -35,7 +35,7 @@ function App() {
                 </Routes>
             </main>
         </div>
-        </LoginProvider>
+       
         </>
     )
 };

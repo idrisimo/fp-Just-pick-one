@@ -22,7 +22,7 @@ export const loginFunction = async (formInput) => {
 
 function login(data) {
     localStorage.setItem("token", data.tokens)
-    localStorage.setItem('username',data.username)
+    localStorage.setItem('username', data.username)
 }
 
 
