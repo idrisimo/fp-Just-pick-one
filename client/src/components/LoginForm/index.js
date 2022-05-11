@@ -24,9 +24,7 @@ export function LoginForm() {
             e.preventDefault();
             try {
                 setLoading(true);
-                console.log(formInput)
                 const login = await loginFunction(formInput);
-                console.log(login)
                 if(login === "Successful Login") {
                     navigateTo("/UserAccount")
                     setIsLoggedIn(true)
