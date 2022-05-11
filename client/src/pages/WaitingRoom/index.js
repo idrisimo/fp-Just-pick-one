@@ -37,7 +37,7 @@ export function WaitingRoom() {
 
     }, [])
 
-    // Checks if use has left the page. disconnects them from the 
+    // Checks if use has left the page. Sends message to backend with current user list and the user that has disconnected.
     window.onbeforeunload = () => {
         console.log('disconnecting')
         console.log('userlist: ',userList)
