@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'just-pick-1-api.herokuapp.com',
     '127.0.0.1:8080',
+    '127.0.0.1',
     'localhost:8080'
 ]
 
@@ -182,12 +183,12 @@ CHANNEL_LAYERS = {
     },
 }
 
-CACHES = {
-    "default": {
-        "BACKEND" : "django_redis.cache.RedisCache",
-        "LOCATION": [os.environ.get('REDIS_URL'), ('127.0.0.1', 6379)],
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-        }
-    }  
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND" : "django_redis.cache.RedisCache",
+#         "LOCATION": [os.environ.get('REDIS_URL'), ('127.0.0.1', 6379)],
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient"
+#         }
+#     }  
+# }

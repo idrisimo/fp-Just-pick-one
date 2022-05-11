@@ -6,7 +6,7 @@ import { useLogin } from "../../context/LoginProvider";
 export function LoginForm() {
 
     const navigateTo = useNavigate();
-    const {setIsLoggedIn} = useLogin()
+    const setIsLoggedIn = useLogin()
 
     const [formInput, setFormInput] = useState({username:"", password:""});
     const [loading, setLoading] = useState(false);
@@ -42,19 +42,32 @@ export function LoginForm() {
 
     return(
         <>
-        <form aria-label="form" id="loginForm" onSubmit={handleSubmit}>
+        <form aria-label="form" role="form" id="loginForm" name="loginForm" onSubmit={handleSubmit}>
+            <main>
             <label htmlFor="Username">Username:</label>
             <input type="text" aria-label="Username" name="username" onChange={updateInput} required />
             <label htmlFor="Password">Password:</label>
             <input type="password" aria-label="Password" name="password" onChange={updateInput} required/>
             <input type="submit" className="submitBtn" value="Login" style={{cursor: 'pointer'}}/>
             <p id="change" onClick={() => navigateTo('/Register')} style={{cursor: 'pointer'}}>Don't have an account yet? Register here!</p>
-        </form>
-        {loading && (
-            <div id="loading">
+            </main>
+            <div>
+      <label htmlFor="my-input">Example:</label>
+      <input id="my-input" type="text" value="This is a bad example" />
+    </div>,
+            {error && (
+            <div data-testid="error" id="error">
+              Incorrect Username or Password
+            </div>
+          )}
+
+            {loading && (
+            <div data-testid="loading" id="loading">
                 Logging in . . .
             </div>
         )}
+        </form>
+      
         </>
     )
 }
