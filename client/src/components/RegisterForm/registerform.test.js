@@ -8,7 +8,7 @@ import { loginFunction, registerFunction } from '../../actions';
 import axios from 'axios'
 
 
-describe('LoginForm', () => {
+describe('Register Form', () => {
 
     const handleSubmit = jest.fn(e => e.preventDefault())
 
@@ -52,6 +52,8 @@ describe('LoginForm', () => {
     //     const loading = screen.getByTestId('loading')
     //     expect(loading).toBeInTheDocument()
     // })
+
+    
    
 
     // test('onSubmit is called when submit button is clicked', async() => {
