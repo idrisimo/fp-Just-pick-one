@@ -5,6 +5,8 @@ import { Card, CardMedia, Container } from '@mui/material';
 import useAxios from "../../hooks/useAxios";
 import useAxiosPost from "../../hooks/useAxiosPost";
 
+
+
 export function FilmSwipe() {
 
     // const { response, error, loading } = useAxios({ url: "http://127.0.0.1:8000/get_movies/" })
@@ -21,7 +23,7 @@ export function FilmSwipe() {
 
     console.log(response)
 
-
+    const [numMoviesLeft, setNumMoviesLeft] = useState(20) 
     const [lastDirection, setLastDirection] = useState('')
     const [movieData, setMovieData] = useState([])
     const [likedMovies, setLikedMovies] = useState([])
@@ -32,14 +34,27 @@ export function FilmSwipe() {
         }
     }, [response])
 
-    const swiped = (direction, nameToDelete) => {
-        console.log('removing: ' + nameToDelete)
+
+    const swiped = (direction, movieId) => {
+        console.log('removing: ' + movieId)
+        console.log(likedMovies)
         setLastDirection(direction)
+        if (direction === "right") {
+          let updatedLikedMovies = likedMovies;
+          updatedLikedMovies.push(movieId)
+          setLikedMovies(updatedLikedMovies);
+        }
+        setNumMoviesLeft(numMoviesLeft-1);
     }
 
     const outOfFrame = (name) => {
         console.log(name + ' left the screen!')
     }
+
+    if (numMoviesLeft == 0) {
+      //to send info to backend and loading
+    }
+
     return (
         <div>
                         <link href='https://fonts.googleapis.com/css?family=Damion&display=swap' rel='stylesheet' />
