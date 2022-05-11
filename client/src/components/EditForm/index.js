@@ -49,7 +49,8 @@ export function EditForm() {
          setLoading(true);
          const newPreferences = await createPreferences(formInput)
          if (newPreferences === "Successful"){
-            navigateTo('/UserAccount')
+            // navigateTo('/UserAccount')
+            window.location.reload()
          } else {
             throw new Error('Impossible to save new preferences!')
          }
@@ -100,6 +101,7 @@ export function EditForm() {
       )
    }
 
+   // If extra time: Next 2 functions could be reduced to 1
    const manageMultiGenreSelect = e => {
       const state = formInput
       const clickedValue = e.target.value
@@ -133,7 +135,6 @@ export function EditForm() {
           return setFormInput((prev) => ({ ...prev, "platform": newValue }))
       }
    }
-   
 
    const renderGenreOptions = () => {
       return genres.map(genre => <><input type="checkbox" aria-label="Genre" name="genre" value={genre.id} onClick={manageMultiGenreSelect}/>{genre.name}<br/></>)
@@ -162,39 +163,33 @@ export function EditForm() {
       return platforms.map(p => <><input type="checkbox" aria-label="Platforms" name="platforms" value={p.provider_id} onClick={manageMultiPlatformsSelect}/>{p.provider_name}<br/></>)
    }
 
-
    return(
       <>
-      {prefStatus && renderUserPreferences()}
-
-      <form aria-label="editPreferencesForm" id="edit-preferences-form" onSubmit={handleSubmit}>
-
-         <label htmlFor="Genre">Genre: </label><br/>
-         {renderGenreOptions()}<br/>
-
-         <label htmlFor="Year">Year: </label>
-         <input type="number" aria-label="Year" name="year" onChange={updateInput}/><br/><br/>
-
-         <label htmlFor="Country">Country: </label>
-         <select aria-label="Country" name="country" onChange={updateInput}>
-            {renderCountryOptions()}
-         </select><br/><br/>
-
-         <label htmlFor="Platforms">Platforms: </label><br/>
-            {renderPlatformOptions()}<br/>
-
-         <input type="submit" className="submitBtn" value="Save" style={{cursor: 'pointer'}}/><br/><br/>
-
-
          {loading && (
-         <div id="loading">
-            Loading Preferences . . .
-         </div>
-         )}
-      </form>
+            <div id="loading">
+               Loading Preferences . . .
+            </div>
+            )}
+            
+         {prefStatus && renderUserPreferences()}
 
-     
+         <form aria-label="editPreferencesForm" id="edit-preferences-form" onSubmit={handleSubmit}>
+            <label htmlFor="Genre">Genre: </label><br/>
+            {renderGenreOptions()}<br/>
 
+            <label htmlFor="Year">Year: </label>
+            <input type="number" aria-label="Year" name="year" onChange={updateInput}/><br/><br/>
+
+            <label htmlFor="Country">Country: </label>
+            <select aria-label="Country" name="country" onChange={updateInput}>
+               {renderCountryOptions()}
+            </select><br/><br/>
+
+            <label htmlFor="Platforms">Platforms: </label><br/>
+               {renderPlatformOptions()}<br/>
+
+            <input type="submit" className="submitBtn" value="Save" style={{cursor: 'pointer'}}/><br/><br/>
+         </form>
       </>
    )
 
