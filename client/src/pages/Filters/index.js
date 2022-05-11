@@ -58,10 +58,9 @@ export const Filters = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigateTo("/FilmSwipe");
+    navigateTo("/WaitingRoom");
   };
 
-console.log(response)
   return (
     <div className="background-color">
     <form  onSubmit={handleSubmit}>
