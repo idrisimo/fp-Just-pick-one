@@ -6,8 +6,6 @@ import { createPreferences, getPreferences } from "../../actions";
 
 export function EditForm() {
 
-   const navigateTo = useNavigate();
-
    const [ loading, setLoading ] = useState(false)
    const [ userPreferences, setUserPreferences ] = useState({})
    const [ prefStatus, setPrefStatus ] = useState(false)
@@ -49,7 +47,6 @@ export function EditForm() {
          setLoading(true);
          const newPreferences = await createPreferences(formInput)
          if (newPreferences === "Successful"){
-            // navigateTo('/UserAccount')
             window.location.reload()
          } else {
             throw new Error('Impossible to save new preferences!')
@@ -92,7 +89,7 @@ export function EditForm() {
       return (
          <>
             <h2>Your current preferences: </h2>
-            <p>Genre code(s): {genreNames}</p>
+            <p>Genre(s): {genreNames}</p>
             <p>Country: {country}</p>
             <p>Year: {year}</p>
             <p>Platform(s): {platformNames}</p>
@@ -192,7 +189,4 @@ export function EditForm() {
          </form>
       </>
    )
-
-
-
 }
