@@ -9,8 +9,8 @@ export function EditForm() {
 
    const [ loading, setLoading ] = useState(false)
    const [ userPreferences, setUserPreferences ] = useState({})
-   const [ prefStatus, setPrefStatus] = useState(false)
-   const [formInput, setFormInput] = useState({
+   const [ prefStatus, setPrefStatus ] = useState(false)
+   const [ formInput, setFormInput ] = useState({
       "genre": null,
       "year": null,
       "country": null,
@@ -40,6 +40,7 @@ export function EditForm() {
       e.preventDefault();
       try{
          setLoading(true);
+
          const newPreferences = await createPreferences(formInput)
          console.log(newPreferences)
          if (newPreferences === "Successful"){
@@ -54,31 +55,56 @@ export function EditForm() {
 
 
    const renderUserPreferences = () => {
-
-      const genre = userPreferences.genre ? userPreferences.genre : "Any"
+      const genre = userPreferences.genre ? userPreferences.genre.split(",") : "Any"
       const country = userPreferences.country ? userPreferences.country : "Any"
       const year = userPreferences.year ? userPreferences.year : "Any"
       const platform = userPreferences.platform ? userPreferences.platform : "Any"
+      let genreNames = ""
+
+      if(genre!=="Any"){
+         genre.map( code => {
+            genreNames += `${genres.find( g => g.id == code).name},`
+         })
+         genreNames = genreNames.slice(0, -1)
+      } else {
+         genreNames = genre
+      }
 
       return (
          <>
             <h2>Your current preferences: </h2>
-            <p>Genre code(s): {genre}</p>
+            <p>Genre code(s): {genreNames}</p>
             <p>Country: {country}</p>
             <p>Year: {year}</p>
             <p>Platform(s): {platform}</p>
             <h2>Edit your preferences: </h2>
-         </>
-         
+         </>   
       )
    }
 
-   const renderGenreOptions = () => {
-      return genres.map(genre => <><input type="checkbox" aria-label="Genre" name="genre" value={genre.id} onChange={updateInput}/>{genre.name}<br/></>)
+   const manageMultiGenreSelect = e => {
+      const state = formInput
+      console.log(state.genre)
+      const clickedValue = e.target.value
+      console.log(clickedValue)
+      if (state.genre){
+         if (state.genre.includes(clickedValue)){
+            const newValue = state.genre.replace(`,${clickedValue}`,'')
+            return setFormInput((prev) => ({ ...prev, "genre": newValue }))
+         } else {
+            const newValue = state.genre+`,${clickedValue}`
+            return setFormInput((prev) => ({ ...prev, "genre": newValue }))
+         }
+      } else {
+          const newValue = clickedValue
+          console.log(state.genre)
+          return setFormInput((prev) => ({ ...prev, "genre": newValue }))
+      }
    }
 
-   
-
+   const renderGenreOptions = () => {
+      return genres.map(genre => <><input type="checkbox" aria-label="Genre" name="genre" value={genre.id} onClick={manageMultiGenreSelect}/>{genre.name}<br/></>)
+   }
 
    return(
       <>
@@ -89,13 +115,6 @@ export function EditForm() {
 
          <label htmlFor="Genre">Genre: </label><br/>
          {renderGenreOptions()}
-         
-         {/* <select name="genre" multiple={true}>
-            <option value="28">Action</option>
-            <option value="12">Adventure</option>
-            <option value="16">Animation</option>
-            <option value="35">Comedy</option>
-         </select> */}
 
          <label htmlFor="Year">Year: </label>
          <input type="number" aria-label="Year" name="year" onChange={updateInput}/>
