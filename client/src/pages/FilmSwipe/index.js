@@ -44,7 +44,7 @@ export function FilmSwipe() {
         <div>
                         <link href='https://fonts.googleapis.com/css?family=Damion&display=swap' rel='stylesheet' />
             <link href='https://fonts.googleapis.com/css?family=Alatsi&display=swap' rel='stylesheet' />
-            <h1>React Tinder Card</h1>
+            <h1 className="recommendation" style={{textAlign: 'center'}}>We recommend you:</h1>
 
             <div>
             <Container className="tinderCards__cardContainer">
@@ -63,7 +63,7 @@ export function FilmSwipe() {
             </Container>
         </div>
 
-            {lastDirection ? <h2>You swiped {lastDirection}</h2> : <h2 />}
+            {lastDirection ? <h2 className="choice" style={{textAlign: 'center'}}>You swiped {lastDirection}</h2> : <h2 />}
         </div>
     )
 }

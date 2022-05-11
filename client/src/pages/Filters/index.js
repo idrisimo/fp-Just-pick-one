@@ -61,7 +61,7 @@ export const Filters = () => {
     navigateTo("/WaitingRoom");
   };
 
-console.log(response)
+  
   return (
     <div className="background-color">
     <form  onSubmit={handleSubmit}>
