@@ -48,13 +48,13 @@ export function LoginForm() {
             <input type="text" aria-label="Username" name="username" onChange={updateInput} required />
             <label htmlFor="Password">Password:</label>
             <input type="password" aria-label="Password" name="password" onChange={updateInput} required/>
-            <input type="submit" className="submitBtn" value="Login" style={{cursor: 'pointer'}}/>
+            <input type="submit" aria-label="Submit" className="submitBtn" value="Login" style={{cursor: 'pointer'}}/>
             <p id="change" onClick={() => navigateTo('/Register')} style={{cursor: 'pointer'}}>Don't have an account yet? Register here!</p>
             </main>
             <div>
-      <label htmlFor="my-input">Example:</label>
-      <input id="my-input" type="text" value="This is a bad example" />
-    </div>,
+                <label htmlFor="my-input">Example:</label>
+                <input id="my-input" type="text" value="This is a bad example" />
+            </div>
             {error && (
             <div data-testid="error" id="error">
               Incorrect Username or Password

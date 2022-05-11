@@ -127,13 +127,15 @@ export function EditForm() {
 
          <input type="submit" className="submitBtn" value="Save" style={{cursor: 'pointer'}}/>
 
-      </form>
 
-      {loading && (
+         {loading && (
          <div id="loading">
             Loading Preferences . . .
          </div>
-      )}
+         )}
+      </form>
+
+     
 
       </>
    )
