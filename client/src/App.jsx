@@ -1,15 +1,17 @@
 import React from "react";
 import  {Routes, Route } from 'react-router-dom';
 import './App.css';
+import { LoginProvider } from "./context/LoginProvider";
 import { EditPreferences, FilmSwipe, Filters, Home, HowItWorks,
          Login, Randomiser, RandomMatch, Register, StreamingService, 
-         UsedPreferences, UserAccount, UserMatch, WaitingRoom } from './pages';
+         UsedPreferences, UserAccount, UserMatch, WaitingRoom, HostWaitingRoom } from './pages';
 
 
 function App() {
 
     return (
         <>
+        <LoginProvider>
         <div id='app'>
             <main>
             <h1>Just Pick One</h1>
@@ -19,6 +21,7 @@ function App() {
                     <Route path="/FilmSwipe" element={<FilmSwipe />}/>
                     <Route path="/Filters" element={<Filters />}/>
                     <Route path="/" element={<Home />}/>
+                    <Route path="/HostWaitingRoom" element={<HostWaitingRoom />}/>
                     <Route path="/HowItWorks" element={<HowItWorks />}/>
                     <Route path="/Login" element={<Login />} />
                     <Route path="/Randomiser" element={<Randomiser />}/>
@@ -33,6 +36,7 @@ function App() {
                 </Routes>
             </main>
         </div>
+        </LoginProvider>
         </>
     )
 };

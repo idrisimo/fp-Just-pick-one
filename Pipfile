@@ -9,6 +9,10 @@ djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 requests = "*"
 django-environ = "*"
+django-cors-headers = "*"
+channels-redis = "*"
+daphne = "*"
+whitenoise = "*"
 
 [dev-packages]
 

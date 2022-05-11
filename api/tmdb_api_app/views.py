@@ -1,16 +1,18 @@
-from urllib import request
 from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
 import requests
 import environ
 import os
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from pprint import pprint
+
 # Initialise environmental variables
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, 'api/.env'))
 
-
+@api_view(['POST'])
 def get_movie_data(req):
     options = {
         'genre': '&with_genres=',
@@ -22,9 +24,8 @@ def get_movie_data(req):
         'region': '&region=',
         'pages': '&page='
     }
-
     if req.method == 'POST':
-        choices = req.POST.dict()
+        choices = req.data
 
         query_string = ''
         
@@ -37,6 +38,6 @@ def get_movie_data(req):
         final_url = f'{base_url}{api_key}{query_string}'
         response = requests.get(final_url)
         data = response.json()
-        return JsonResponse(data)
+        return Response(data)
     else:
-        return HttpResponse('No Access via this route') # TODO Deal with this better. 
+        return Response('No Access via this route') # TODO Deal with this better. 
