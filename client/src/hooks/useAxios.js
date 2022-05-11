@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 
 axios.defaults.baseURL = "http://127.0.0.1:8000/get_movies/"
 
-
 const useAxios = ({ url }) => {
     const [response, setResponse] = useState(null);
     const [error, setError] = useState("");
