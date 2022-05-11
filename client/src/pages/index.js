@@ -12,3 +12,4 @@ export { UserMatch } from './UserMatch';
 export { RandomMatch } from './RandomMatch';
 export { UsedPreferences } from './UsedPreferences';
 export { EditPreferences } from './EditPreferences';
+export { HostWaitingRoom } from './HostWaitingRoom';

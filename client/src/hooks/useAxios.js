@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 
-axios.defaults.baseURL = "https://api.themoviedb.org/3/discover/movie?api_key=63776e21ed364fcdaf334b748b8924eb&language=en-US&include_adult=false&include_video=false&page=1b"
-
+axios.defaults.baseURL = "http://127.0.0.1:8000/get_movies/"
 
 const useAxios = ({ url }) => {
     const [response, setResponse] = useState(null);
