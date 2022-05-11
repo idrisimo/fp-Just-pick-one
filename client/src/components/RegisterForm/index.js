@@ -42,9 +42,7 @@ export function RegisterForm() {
         e.preventDefault();
         try{
             setLoading(true);
-            console.log(formInput)
             const register = await registerFunction(formInput)
-            console.log(register)
             if (register === "Successful registration"){
             await loginFunction(formInput)
             navigateTo('/Login')

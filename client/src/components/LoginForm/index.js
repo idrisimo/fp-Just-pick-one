@@ -24,9 +24,7 @@ export function LoginForm() {
             e.preventDefault();
             try {
                 setLoading(true);
-                console.log(formInput)
                 const login = await loginFunction(formInput);
-                console.log(login)
                 if(login === "Successful Login") {
                     navigateTo("/UserAccount")
                     setIsLoggedIn(true)
@@ -49,7 +47,7 @@ export function LoginForm() {
             <input type="text" aria-label="Username" name="username" onChange={updateInput} required />
             <label htmlFor="Password">Password:</label>
             <input type="password" aria-label="Password" name="password" onChange={updateInput} required/>
-            <input type="submit" className="submitBtn" value="Login" style={{cursor: 'pointer'}}/>
+            <input type="submit" aria-label="Submit" className="submitBtn" value="Login" style={{cursor: 'pointer'}}/>
             <p id="change" onClick={() => navigateTo('/Register')} style={{cursor: 'pointer'}}>Don't have an account yet? Register here!</p>
             </main>
             {error && (

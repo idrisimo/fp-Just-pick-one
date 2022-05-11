@@ -1,5 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Dancing+Script:wght@500;700&family=Kaushan+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap');
+
+body {
+  background: linear-gradient(90deg, rgba(223,43,85,1) 0%, rgba(126,16,56,1) 50%, rgba(212,25,12,1) 100%);
+  color: rgb(245, 240, 240);
+  font-family: 'Oleo Script', cursive;
+}
+
+.recommendation {
+  font-family: 'Dancing Script', cursive;
+}
+
+.choice {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 100;
+}
 
 .card {
+  
   position: relative;
   width: 600px;
   /* padding: 20px; */
@@ -8,6 +26,7 @@
   /* border-radius: 20px; */
   background-size: cover;
   background-position: center;
+  
   margin: auto;
   align-items: center;
   justify-content: center;
@@ -22,6 +41,7 @@
 }
 
 .tinderCards__cardContainer {
+  
   display: flex;
   justify-content: center;
   margin-top: 5vh;
@@ -29,6 +49,8 @@
 
 .swipe {
   position: absolute;
+  margin-top: 60px;
+
 }
 
 .overlay {

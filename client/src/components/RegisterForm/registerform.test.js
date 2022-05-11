@@ -3,15 +3,17 @@ import { screen, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
-import { LoginForm } from './index'
-import { loginFunction } from '../../actions';
+import { RegisterForm } from './index'
+import { loginFunction, registerFunction } from '../../actions';
 import axios from 'axios'
 
 
 describe('LoginForm', () => {
 
+    const handleSubmit = jest.fn(e => e.preventDefault())
+
     beforeEach(() => {
-        render (<LoginForm />, {wrapper: MemoryRouter})
+        render (<RegisterForm />, {wrapper: MemoryRouter})
     })
 
     test('it renders a form', () => {
@@ -53,22 +55,10 @@ describe('LoginForm', () => {
    
 
     // test('onSubmit is called when submit button is clicked', async() => {
-    //     const onSubmit = jest.fn
     //     const submit = screen.getByLabelText('Submit')
     //     await waitFor(()=>userEvent.click(submit))
-    //     expect(onSubmit.mock.calls.length).toBe(1)
+    //     expect(handleSubmit.mock.calls.length).toBe(1)
         
     // })
 
-
-    test('onSubmit is called when submit button is clicked', async() => {
-        const onSubmit = jest.fn()
-        const submit = screen.getByLabelText('Submit')
-        await waitFor(()=>userEvent.click(submit), { timeout: 5000 })
-        expect(onSubmit).toHaveBeenCalled()
-        
-    })
-
 })
-
-
