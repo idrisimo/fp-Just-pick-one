@@ -1,13 +1,12 @@
 import React from 'react'
-
+import {FormControlLabel, Paper, Switch} from '@mui/material'
 
 export const UserCard = ({ username }) => {
 
     return(
+        
         <div>
-            <h3>{username}</h3>
-            <br></br>
-            <button>Ready?</button>
+            <FormControlLabel control={<Switch color='success'/>} label={username}/>
         </div>
     )
 }

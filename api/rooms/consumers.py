@@ -1,4 +1,5 @@
 # chat/consumers.py
+from collections import UserList
 import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
@@ -14,15 +15,7 @@ class ChatConsumer(WebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        self.accept()
-        # async_to_sync(self.channel_layer.group_send)(
-        #     self.room_group_name,
-        #     {
-        #         'type': 'known_user',
-        #         'userList': 'hello world'
-        #     }
-        # )
-        
+        self.accept()       
         self.send(text_data=json.dumps({'type': 'connection_established', 'message': 'You are now connected!'}))
 
     def disconnect(self, close_code):
@@ -31,7 +24,6 @@ class ChatConsumer(WebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-
     # Receive message from WebSocket
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
@@ -59,6 +51,19 @@ class ChatConsumer(WebsocketConsumer):
                     'userList':userList
                 }
             )
+        elif text_data_json['type'] == 'disconnect_user':
+            userList = text_data_json['userList']
+            print('text_data_json disc: ', userList)
+            disconnectedUser = text_data_json['disconnectedUser']
+            print('text_data_json: ', disconnectedUser)
+            async_to_sync(self.channel_layer.group_send)(
+                self.room_group_name,
+                {
+                    'type':'disconnect_user',
+                    'userList':userList,
+                    'disconnectedUser':disconnectedUser
+                 }
+            )
 
     # Receive message from room group
     def chat_message(self, event):
@@ -75,4 +80,18 @@ class ChatConsumer(WebsocketConsumer):
     def known_users(self, event):
         print('known users event: ',event)
         userList = event['userList']
+        self.send(text_data=json.dumps({'userList':userList}))
+
+    def disconnect_user(self, event):
+        # Leave room group
+        print('user disconnected')
+        userList = event['userList']
+        disconnectedUser = event['disconnectedUser']
+        print(type(userList))
+        print(disconnectedUser)
+        # updated_userList = [obj for obj in userList if not (userList['username'] == disconnectedUser)]
+        for i in range(len(userList)):
+            if userList[i]['username'] == disconnectedUser:
+                del userList[i]
+                break
         self.send(text_data=json.dumps({'userList':userList}))

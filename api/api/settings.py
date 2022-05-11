@@ -179,7 +179,7 @@ CHANNEL_LAYERS = {
         'CONFIG': {
             "hosts": [('127.0.0.1', 6379)],
         },
-        "ROUTING": "api.routing.channel_routing"
+        # "ROUTING": "api.routing.channel_routing"
     },
 }
 

@@ -7,7 +7,7 @@ export function LoginForm() {
 
     const navigateTo = useNavigate();
     const setIsLoggedIn = useLogin()
-
+    console.log(setIsLoggedIn)
     const [formInput, setFormInput] = useState({username:"", password:""});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState();
@@ -30,6 +30,7 @@ export function LoginForm() {
                 if(login === "Successful Login") {
                     navigateTo("/UserAccount")
                     setIsLoggedIn(true)
+                    console.log('test')
                 } else {
                     throw new Error(login)
                 }
@@ -51,10 +52,6 @@ export function LoginForm() {
             <input type="submit" className="submitBtn" value="Login" style={{cursor: 'pointer'}}/>
             <p id="change" onClick={() => navigateTo('/Register')} style={{cursor: 'pointer'}}>Don't have an account yet? Register here!</p>
             </main>
-            <div>
-      <label htmlFor="my-input">Example:</label>
-      <input id="my-input" type="text" value="This is a bad example" />
-    </div>,
             {error && (
             <div data-testid="error" id="error">
               Incorrect Username or Password
