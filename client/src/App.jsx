@@ -14,7 +14,7 @@ function App() {
         <LoginProvider>
         <div id='app'>
             <main>
-            <h1>Just Pick One</h1>
+            <h1 style={{textAlign: 'center'}}>Just Pick One!</h1>
                 <Routes>
 
                     <Route path="/EditPreferences" element={<EditPreferences />}/>
