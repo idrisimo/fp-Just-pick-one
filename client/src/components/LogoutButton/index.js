@@ -15,7 +15,7 @@ export function LogoutButton() {
     }
 
     return(
-        <input type="submit" id="logoutBtn" value="Logout" onClick={handleLogout}/>
+        <input type="submit" id="logoutBtn" value="Logout" style={{cursor: 'pointer'}} onClick={handleLogout}/>
        
     )
 }

@@ -8,6 +8,7 @@ export function HostWaitingRoom() {
         
         <input type="submit" value="START" style={{cursor: 'pointer'}}/>
         <BackButton />
+        <Footer />
         </>
     )
 }

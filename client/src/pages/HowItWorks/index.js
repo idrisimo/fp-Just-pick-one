@@ -1,5 +1,6 @@
 import React from "react";
 import { BackButton } from "../../components";
+import { Footer } from "../../layout";
 
 export function HowItWorks() {
 
@@ -70,7 +71,7 @@ export function HowItWorks() {
             </div>
             <BackButton />
         </main>
-
+        <Footer />
         </>
     )
 }
