@@ -6,8 +6,9 @@ import { maxWidth } from "@mui/system";
 import { useLocation, useNavigate } from "react-router-dom";
 
 
-export function WaitingRoom() {
+export function WaitingRoom({}) {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [movingOn, setMovingOn] = useState(false)
     const [messages, setMessages] = useState([])
     const [value, setValue] = useState('')
     const [username, setUsername] = useState('idris')
@@ -37,8 +38,18 @@ export function WaitingRoom() {
                 if (dataFromServer['userList']) {
                     setUserList(dataFromServer['userList'])
                 }
+                if(dataFromServer['winningMovie']){
+                    console.log('test')
+                    localStorage.clear()
+                    localStorage.setItem('test', dataFromServer['winningMovie'])
+                    localStorage.setItem('winningMovieTitle', dataFromServer['winningMovie'].title)
+                    localStorage.setItem('winningMoviePoster_path', dataFromServer['winningMovie'].poster_path)
+                }
             }
             console.log('endof onmessage')
+        }
+        client.onclose = () => {
+            client.close()
         }
 
 
@@ -55,29 +66,26 @@ export function WaitingRoom() {
             }
         }
         if (counter === userList.length && isLoggedIn && counter > 0) {
-            navigate('/filmswipe', { state: { roomCode: roomCode, username: username, userList: userList } })
+            setMovingOn(false)
+            // client.onclose = () => client.close()
+            navigate('/filmswipe', { state: { roomCode: roomCode, username: username, userList: userList} })
         }
     }
 
     // Checks if use has left the page. Sends message to backend with current user list and the user that has disconnected.
     window.onbeforeunload = () => {
-        console.log('disconnecting')
-        console.log('userlist: ',userList)
         client.send(JSON.stringify({
             type: 'disconnect_user',
             userList: userList,
-            'disconnectedUser':username
+            'disconnectedUser': username
         }))
-    }
-
-    const onButtonClicked = (e) => {
-        client.send(JSON.stringify({
-            type: 'message',
-            message: value,
-            username: username
-        }))
-
-        e.preventDefault()
+        // if (!movingOn) {
+        //     client.send(JSON.stringify({
+        //         type: 'disconnect_user',
+        //         userList: userList,
+        //         'disconnectedUser': username
+        //     }))
+        // }
     }
 
     const joinRoomHandler = (e) => {

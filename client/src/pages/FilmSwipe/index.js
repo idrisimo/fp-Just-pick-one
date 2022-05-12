@@ -38,9 +38,11 @@ export function FilmSwipe() {
     const location = useLocation()
 
     useEffect(() => {
+
         setRoomCode(location.state.roomCode)
         setUsername(location.state.username)
         setUserList(resetUserList(location.state.userList))
+        
     }, [])
 
     const resetUserList = (userList) => {
@@ -55,7 +57,6 @@ export function FilmSwipe() {
     }, [response])
 
     const client = new W3CWebSocket(`ws://127.0.0.1:8000/ws/rooms/${roomCode}/`)
-
     useEffect(() => {
         client.onopen = () => {
             console.log('Websocket client connected')
@@ -68,8 +69,8 @@ export function FilmSwipe() {
                 if (dataFromServer['groupMovies']) {
                     setGroupMovies(dataFromServer['groupMovies'])
                 }else if(dataFromServer['winningMovie']) {
-                    setWinningMovie(dataFromServer['winningMovie'])
-                    console.log(dataFromServer['winningMovie'])
+                    // setWinningMovie(dataFromServer['winningMovie'])
+                    // console.log(dataFromServer['winningMovie'])
                 }
             }
 
@@ -111,11 +112,10 @@ export function FilmSwipe() {
         setUserList(newList)
 
     }
-    const handleTally = () => {
-        client.send(JSON.stringify({
-            type: 'movie_tally',
-            groupMovies: groupMovies
-        }))
+    const handleWin = () => {
+        // let win = {'title':localStorage.getItem('winningMovieTitle'), 'poster_path': localStorage.getItem('winningMoviePoster_path')}
+        // setWinningMovie(win)
+        // console.log(win)
     }
     const handleParty = () => {
 
@@ -127,7 +127,7 @@ export function FilmSwipe() {
         }
 
         if (counter === userList.length && counter > 0) {
-            client.onopen =()=>client.send(JSON.stringify({
+            client.onopen =()=> client.send(JSON.stringify({
                 type: 'movie_tally',
                 groupMovies: groupMovies,
                 apiMovieList: movieData
@@ -138,12 +138,9 @@ export function FilmSwipe() {
         handleParty()
     }, [userList])
 
-    // const handleWinning = () => {
-    //    setWinningMovie(winningMovie)
-    // }
 
     useEffect(() => {
-        console.log(winningMovie)
+        handleWin()
     }, [winningMovie])
 
     return (
@@ -154,8 +151,8 @@ export function FilmSwipe() {
 
             <div>
                 {isDone ?
-
-                    <MatchCard winMovie={winningMovie}/>
+                
+                    <MatchCard  winMovie={winningMovie}/>
                     :
                     <Container  className="tinderCards__cardContainer">
                         {numMoviesLeft === 0 ? <Button variant="contained" onClick={() => {

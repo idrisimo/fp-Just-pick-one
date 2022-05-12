@@ -29,7 +29,7 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        print('receive text_data_json',text_data_json)
+        # print('receive text_data_json',text_data_json)
         match text_data_json['type']:
             case 'message':
                 message = text_data_json['message']
@@ -64,7 +64,7 @@ class ChatConsumer(WebsocketConsumer):
                 )
             case 'selected_movies':
                 groupMovies = text_data_json['groupMovies']
-                
+                print('selected_movies')
                 async_to_sync(self.channel_layer.group_send)(
                     self.room_group_name,
                     {
@@ -80,15 +80,17 @@ class ChatConsumer(WebsocketConsumer):
                     for movie_id in usermovieList['likedMovies']:
                         for movieNum in range(len(apiMovieList)):
                             if movie_id == apiMovieList[movieNum]['id']:
+                                print(f"movie name: {apiMovieList[movieNum]['title']} ID: {apiMovieList[movieNum]['id']} Liked movie id: {movie_id}")
                                 apiMovieList[movieNum].setdefault('tally', 0)
                                 apiMovieList[movieNum]['tally'] += 1
                                 newList.append(apiMovieList[movieNum])
                                 break
-                if len(newList) > 1:
-                    winning_movie = random.choice(newList)
-                else:
-                    winning_movie = max(newList, key=lambda x:x['tally'])
+                winning_movie = max(newList, key=lambda x:x['tally'])
+                # if len(newList) > 1:
+                #     winning_movie = random.choice(newList)
+                # else:
                     
+                print(winning_movie)
                 async_to_sync(self.channel_layer.group_send)(
                     self.room_group_name,
                     {
@@ -135,7 +137,7 @@ class ChatConsumer(WebsocketConsumer):
         
     def movie_tally(self,event):
         winning_movie = event['winningMovie']
-        print(winning_movie)
+        
         self.send(text_data=json.dumps({'winningMovie': winning_movie}))
         
         
