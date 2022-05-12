@@ -61,13 +61,20 @@ INSTALLED_APPS = [
     'channels',
     'rest_framework',
     'corsheaders',
+    'django_nose',
     # Custom
     'authentication',
     'tmdb_api_app',
     'rooms',
     'preferences',
 
+]
 
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=api,authentication,preferences,rooms,tmdb_api_app',
 ]
 
 MIDDLEWARE = [
