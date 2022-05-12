@@ -7,6 +7,7 @@ export function EditForm() {
    const [ loading, setLoading ] = useState(false)
    const [ userPreferences, setUserPreferences ] = useState({})
    const [ prefStatus, setPrefStatus ] = useState(false)
+   const [ savedMsg, setSavedMsg ] = useState(false)
    const [ formInput, setFormInput ] = useState({
       "genre": null,
       "year": null,
@@ -44,8 +45,8 @@ export function EditForm() {
       try{
          setLoading(true);
          const newPreferences = await createPreferences(formInput)
-         if (newPreferences === "Successful"){
-            window.location.reload()
+         if (newPreferences === "Successful"){ 
+            setSavedMsg(true)
          } else {
             throw new Error('Impossible to save new preferences!')
          }
@@ -196,6 +197,8 @@ export function EditForm() {
 
             <input type="submit" className="submitBtn" value="Save" style={{cursor: 'pointer'}}/><br/><br/>
          </form>
+
+         {savedMsg && <p>Your preferences have been updated</p>}
       </>
    )
 }

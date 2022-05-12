@@ -1,0 +1,7 @@
+div#backBtnNav button{
+   font-size: 15px;
+   background-color: rgb(11, 11, 19);
+   color: white;
+   padding: 10px;
+   border-radius: 10px;
+}
