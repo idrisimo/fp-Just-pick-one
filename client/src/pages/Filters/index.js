@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import './index.css';
 import { NumMovies } from "../../components/NumMovies";
+import { Footer } from "../../layout";
 
 export const Filters = () => {
   const { response, error, loading } = useAxios({ url: "https://api.themoviedb.org/3/discover/movie?api_key=63776e21ed364fcdaf334b748b8924eb&language=en-US&include_adult=false&include_video=false&page=1b" });
@@ -63,6 +64,7 @@ export const Filters = () => {
 
   
   return (
+    <>
     <div className="background-color">
     <form  onSubmit={handleSubmit}>
       <h1>Movie Settings</h1>
@@ -78,6 +80,8 @@ export const Filters = () => {
         </div>
       </form>
     </div>
+    <Footer />
+    </>
   );
 };
 

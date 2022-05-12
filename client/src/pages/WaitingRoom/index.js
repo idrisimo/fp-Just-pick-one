@@ -56,6 +56,7 @@ export function WaitingRoom() {
 
 
     return (
+        <>
         <div>
             {isLoggedIn ?
                 // Chatroom
@@ -93,6 +94,9 @@ export function WaitingRoom() {
                 </div>
             }
             <BackButton />
+
         </div>
+        <Footer />
+        </>
     )
 }

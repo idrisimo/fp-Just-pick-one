@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { BackButton } from "../../components";
 import { getPreferences } from "../../actions";
+import { Footer } from "../../layout";
 
 
 export function UsedPreferences() {
@@ -66,6 +67,7 @@ export function UsedPreferences() {
 
         </form>
         <BackButton />
+        <Footer />
         </>
     )
 }

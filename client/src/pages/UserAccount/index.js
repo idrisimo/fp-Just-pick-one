@@ -1,6 +1,7 @@
 import React from "react";
 import { useLogin } from "../../context/LoginProvider";
 import { NavButton, LogoutButton, JoinRoomFeature } from "../../components";
+import { Footer } from "../../layout";
 import { Home } from "../Home";
 
 export function UserAccount() {
@@ -14,6 +15,7 @@ export function UserAccount() {
         <JoinRoomFeature />
         <NavButton id="HowItWorksBtn" value="How it Works" path="/HowItWorks"/>
         <LogoutButton/>
+        <Footer />
         </>
     )
 
