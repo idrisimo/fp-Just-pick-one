@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { JoinRoomFeature, NavButton } from '../../components';
+import { JoinRoomFeature, NavButton } from '../../components'; 
+import './Home.css';
 
 export function Home() {
 
