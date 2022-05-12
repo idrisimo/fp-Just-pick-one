@@ -1,5 +1,6 @@
 import React from "react";
 import { BackButton, RegisterForm } from "../../components";
+import { Footer } from "../../layout";
 
 export function Register() {
 
@@ -7,6 +8,7 @@ export function Register() {
         <>
         <RegisterForm />
         <BackButton />
+        <Footer />
         </>
     )
 }

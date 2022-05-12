@@ -4,6 +4,7 @@ import { BackButton, UserCard } from "../../components";
 import { Container, FormControlLabel, Switch, FormGroup, Paper, Card, CardHeader, Grid } from '@mui/material'
 import { maxWidth } from "@mui/system";
 import { useLocation, useNavigate } from "react-router-dom";
+import {Footer} from '../../layout'
 
 
 export function WaitingRoom({}) {
@@ -155,6 +156,8 @@ export function WaitingRoom({}) {
                 }
                 <BackButton />
             </div>
+            <Footer/>
         </Grid>
+
     )
 }

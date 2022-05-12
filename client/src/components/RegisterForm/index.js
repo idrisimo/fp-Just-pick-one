@@ -60,14 +60,15 @@ export function RegisterForm() {
 
     return(
         <>
+        <img id="login-reg-logo" src='https://i.ibb.co/StfbjGd/2022-05-06-6.png'/>
 
         <form aria-label="registerForm" id="regForm" onSubmit={handleSubmit}>
 
             <main>
             <label htmlFor="Username">Username:</label>
-            <input type="text" aria-label="Username" name="username" required onChange={updateInput}/>
+            <input type="text" aria-label="Username" name="username" required onChange={updateInput}/><br/>
 
-            <label htmlFor="Email">Email:</label>
+            <label htmlFor="Email">Email:</label><br/>
             <input type="email" aria-label="Email" name="email" required onChange={updateInput}/>
 
             <label htmlFor="Password">Password:</label>
