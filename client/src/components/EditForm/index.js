@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { createPreferences, getPreferences } from "../../actions";
-
+import "./index.css"
 
 export function EditForm() {
 
@@ -59,17 +59,16 @@ export function EditForm() {
       let country = userPreferences.country ? userPreferences.country : "Any"
       const year = userPreferences.year ? userPreferences.year : "Any"
       const platform = userPreferences.platform ? userPreferences.platform.split(",") : "Any"
-      console.log(genre)
-      console.log(country)
-      console.log(year)
-      console.log(platform)
       let genreNames = ""
       let platformNames = ""
 
+      if(genre==="Any"&&platform==="Any"&&country==="Any"&&year==="Any"){
+         setPrefStatus(false)
+      }
+      
       if(genre!=="Any"){
          genre.map( code => {
             const g = genres.find(g => g.id === parseInt(code)).genre_name
-            console.log(g)
             genreNames += `${g},`
          })
          genreNames = genreNames.slice(0, -1)
@@ -93,13 +92,11 @@ export function EditForm() {
 
       return (
          <>
-            <h2>Your current preferences: </h2>
             <p>Genre(s): {genreNames}</p>
             <p>Country: {country}</p>
             <p>Year: {year}</p>
             <p>Platform(s): {platformNames}</p>
-            <h2>Edit your preferences: </h2>
-         </>   
+         </>
       )
    }
 
@@ -165,16 +162,24 @@ export function EditForm() {
       return platforms.map(p => <><input type="checkbox" aria-label="Platforms" name="platforms" value={p.provider_id} onClick={manageMultiPlatformsSelect}/>{p.provider_name}<br/></>)
    }
 
+   const renderMessage = () => {
+      return(
+         <><h2>You don't have any preference</h2></>
+      )
+   }
+
    return(
       <>
-         {loading && (
-            <div id="loading">
-               Loading Preferences . . .
-            </div>
-            )}
-            
-         {prefStatus && renderUserPreferences()}
 
+
+         <h2>Your current preferences: </h2>
+         <div id="user-previous-preferences">
+            {loading && (<div id="loading">Loading Preferences . . .</div>)}
+            {prefStatus && renderUserPreferences()}
+            {!prefStatus && renderMessage()}
+         </div>
+
+         <h2>Edit your preferences: </h2>
          <form aria-label="editPreferencesForm" id="edit-preferences-form" onSubmit={handleSubmit}>
             <label htmlFor="Genre">Genre: </label><br/>
             {renderGenreOptions()}<br/>
