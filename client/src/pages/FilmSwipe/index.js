@@ -21,8 +21,6 @@ export function FilmSwipe() {
     })
 
 
-    console.log(response)
-
     const [numMoviesLeft, setNumMoviesLeft] = useState(20) 
     const [lastDirection, setLastDirection] = useState('')
     const [movieData, setMovieData] = useState([])
