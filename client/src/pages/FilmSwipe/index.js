@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import TinderCard from 'react-tinder-card'
 import './FilmSwipe.css'
-import { Card, CardMedia, Container } from '@mui/material';
+import { Card, CardMedia, Container, Button } from '@mui/material';
 import useAxios from "../../hooks/useAxios";
 import useAxiosPost from "../../hooks/useAxiosPost";
 import { useLocation } from "react-router-dom";
-
+import { w3cwebsocket as W3CWebSocket } from 'websocket'
 
 export function FilmSwipe() {
 
@@ -29,6 +29,9 @@ export function FilmSwipe() {
     const [lastDirection, setLastDirection] = useState('')
     const [movieData, setMovieData] = useState([])
     const [likedMovies, setLikedMovies] = useState([])
+    const [groupMovies, setGroupMovies] = useState([])
+    
+
 
     const location = useLocation()
 
@@ -45,7 +48,7 @@ export function FilmSwipe() {
         }
     }, [response])
 
-    const client = new W3CWebSocket(`ws://127.0.0.1:8000/ws/rooms/1${roomCode}/`)
+    const client = new W3CWebSocket(`ws://127.0.0.1:8000/ws/rooms/${roomCode}/`)
 
     useEffect(() => {
         client.onopen = () => {
@@ -80,14 +83,26 @@ export function FilmSwipe() {
     const outOfFrame = (name) => {
         console.log(name + ' left the screen!')
     }
-
-    if (numMoviesLeft == 0) {
-      //to send info to backend and loading
-      let newGroupList = groupMovies
-      newGroupList.push({ 'username': username, 'likedMovies': likedMovies })
-      setGroupMovies(newGroupList)
-      console.log(newGroupList)
+    const handleUserFinished = () => {
+        console.log('click')
+        client.send(JSON.stringify({
+            type: 'selected_movies',
+            groupMovies: groupMovies
+        }))
     }
+
+
+    useEffect(()=>{
+        if (numMoviesLeft == 0) {
+            //to send info to backend and loading
+            let newGroupList = groupMovies
+            newGroupList.push({ 'username': username, 'likedMovies': likedMovies })
+            setGroupMovies(newGroupList)
+            console.log(newGroupList)
+
+          }
+    },[numMoviesLeft])
+
 
     return (
         <div>
@@ -97,6 +112,7 @@ export function FilmSwipe() {
 
             <div>
             <Container className="tinderCards__cardContainer">
+            {numMoviesLeft === 0 ? <Button variant="contained" onClick={()=> handleUserFinished()}>Done?</Button>: ''}
                 {movieData.map((movie) =>
                     <TinderCard className="swipe" key={movie.id} onSwipe={(dir) => swiped(dir, movie.id)} onCardLeftScreen={() => outOfFrame(movie.id)}>
 
