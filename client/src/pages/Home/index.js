@@ -8,8 +8,10 @@ export function Home() {
     const navigateTo = useNavigate();
    
     const handleSubmit = e => {
+
         e.preventDefault();
-        navigateTo("/WaitingRoom")
+        
+        navigateTo("/WaitingRoom", {state:{roomCode:e.target[1].value, username: e.target[0].value}})
     }
 
     // updateInput = e => {

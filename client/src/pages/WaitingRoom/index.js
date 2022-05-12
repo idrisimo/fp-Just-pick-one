@@ -3,21 +3,31 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket'
 import { BackButton, UserCard } from "../../components";
 import { Container, FormControlLabel, Switch, FormGroup, Paper, Card, CardHeader, Grid } from '@mui/material'
 import { maxWidth } from "@mui/system";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export function WaitingRoom() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const location = useLocation()
+
+    const [isLoggedIn, setIsLoggedIn] = useState(true)
+    const [movingOn, setMovingOn] = useState(false)
     const [messages, setMessages] = useState([])
     const [value, setValue] = useState('')
-    const [username, setUsername] = useState('idris')
-    const [roomCode, setRoomCode] = useState('test')
-    const [userList, setUserList] = useState([])
+    const [username, setUsername] = useState(location.state.username)
+    const [roomCode, setRoomCode] = useState(location.state.roomCode)
+    const [userList, setUserList] = useState([{ 'username': username, 'isReady': false }])
+    const [partyReady, setPartyReady] = useState(false)
+
+    const navigate = useNavigate();
 
     const client = new W3CWebSocket(`ws://127.0.0.1:8000/ws/rooms/${roomCode}/`)
+
     // const client = new W3CWebSocket(`ws://just-pick-1-api.herokuapp.com/ws/rooms/${roomCode}/`)
 
     useEffect(() => {
+        
         client.onopen = () => {
             console.log('Websocket client connected')
+            
         }
 
         client.onmessage = (message) => {
@@ -28,45 +38,60 @@ export function WaitingRoom() {
                     msg: dataFromServer.message,
                     username: dataFromServer.username,
                 }))
+                // joinRoomHandler()
                 if (dataFromServer['userList']) {
+                    console.log('userlist stuff')
                     setUserList(dataFromServer['userList'])
+                    joinRoomHandler()
                 }
             }
         }
 
-
     }, [])
+
+    useEffect(() => {
+        handleParty()
+    }, [userList])
+
+    const handleParty = () => {
+        let counter = 0;
+        for (let i = 0; i < userList.length; i++) {
+            if (userList[i]['isReady']) {
+                counter++
+            }
+        }
+        if (counter === userList.length && isLoggedIn && counter > 0) {
+            navigate('/filmswipe', { state: { roomCode: roomCode, username: username, userList: userList } })
+        }
+    }
 
     // Checks if use has left the page. Sends message to backend with current user list and the user that has disconnected.
     window.onbeforeunload = () => {
-        console.log('disconnecting')
-        console.log('userlist: ',userList)
-        client.send(JSON.stringify({
-            type: 'disconnect_user',
-            userList: userList,
-            'disconnectedUser':username
-        }))
+        if (!movingOn) {
+            client.send(JSON.stringify({
+                type: 'disconnect_user',
+                userList: userList,
+                'disconnectedUser': username
+            }))
+        }
     }
 
-    const onButtonClicked = (e) => {
-        client.send(JSON.stringify({
-            type: 'message',
-            message: value,
-            username: username
-        }))
-
-        e.preventDefault()
-    }
-
-    const joinRoomHandler = (e) => {
+    const joinRoomHandler = () => {
         let newList = userList
-        newList.push({'username':username, 'isReady': false})
-        setUserList(newList)
-        client.send(JSON.stringify({
-            type: 'known_users',
-            userList: newList
-        }))
-        e.preventDefault()
+        if(newList.includes(username, 0)){
+            console.log('user exists')
+        } else{
+            let newList = userList
+        
+            newList.push({ 'username': username, 'isReady': false })
+    
+            client.send(JSON.stringify({
+                type: 'known_users',
+                userList: newList
+            }))
+        }
+
+        // e.preventDefault()
     }
 
     const handleReadyUp = (e) => {
@@ -74,8 +99,8 @@ export function WaitingRoom() {
         const checkedUser = e.target.value
 
         const newList = userList.map(user => {
-            if(user.username === checkedUser) {
-                return {...user, isReady: checked}
+            if (user.username === checkedUser) {
+                return { ...user, isReady: checked }
             }
             return user;
         })
@@ -85,7 +110,6 @@ export function WaitingRoom() {
             userList: newList
         }))
     }
-
 
     return (
         <Grid container spacing={0} diretion="column" alignItems="center" justifyContent="center" style={{ minHeight: '60vh' }}>
@@ -111,14 +135,18 @@ export function WaitingRoom() {
                     // Lobby Selection
                     <div>
                         What chat room would you like to enter?<br></br>
-                        <input id="username" type="text" size="20" onChange={e => setUsername(e.target.value)}></input>
-                        <br></br>
-                        <input id="room-name-input" type="text" size="20" value={roomCode ?? ''} onChange={e => setRoomCode(e.target.value)}></input>
-                        <br></br>
-                        <input id="room-name-submit" type="button" value="Enter" onClick={(e) => {
+
+                        <form onSubmit={(e) => {
+                            // setRoomCode(e.target[0].value)
                             setIsLoggedIn(true)
                             joinRoomHandler(e)
-                        }}></input>
+                        }}>
+                            <input id="username" type="text" size="20" onChange={e => setUsername(e.target.value)}></input>
+                            <br></br>
+                            <input id="room-name-input" type="text" size="20" onChange={e => setRoomCode(e.target.value)} ></input>
+                            <br></br>
+                            <input id="room-name-submit" type="submit" value="join room"></input>
+                        </form>
                     </div>
                 }
                 <BackButton />
