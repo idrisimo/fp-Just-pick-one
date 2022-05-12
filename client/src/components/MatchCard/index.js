@@ -14,9 +14,9 @@ export function MatchCard(props) {
             <CardMedia
               component="img"
               height="100%"
-              image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              // image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             />
-            <h4 className="overlay">{movie.title}</h4>
+            {/* <h4 className="overlay">{movie.title}</h4> */}
           </Card>
         </div>
       </main>

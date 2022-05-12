@@ -6,18 +6,19 @@ import useAxios from "../../hooks/useAxios";
 import useAxiosPost from "../../hooks/useAxiosPost";
 import { useLocation } from "react-router-dom";
 import { w3cwebsocket as W3CWebSocket } from 'websocket'
+import { MatchCard } from "../../components";
 
 export function FilmSwipe() {
 
     // const { response, error, loading } = useAxios({ url: "http://127.0.0.1:8000/get_movies/" })
-    const { response, error, loading } = useAxiosPost({ 
+    const { response, error, loading } = useAxiosPost({
         url: "http://127.0.0.1:8000/get_movies/",
         header: JSON.stringify({
-            "Access-Control-Allow-Origin":"*"
+            "Access-Control-Allow-Origin": "*"
         }),
         body: JSON.stringify({
             genre: '35'
-        }) 
+        })
     })
 
 
@@ -25,25 +26,31 @@ export function FilmSwipe() {
     const [username, setUsername] = useState('')
     const [userList, setUserList] = useState([])
 
-    const [numMoviesLeft, setNumMoviesLeft] = useState(20) 
+    const [numMoviesLeft, setNumMoviesLeft] = useState(20)
     const [lastDirection, setLastDirection] = useState('')
     const [movieData, setMovieData] = useState([])
     const [likedMovies, setLikedMovies] = useState([])
     const [groupMovies, setGroupMovies] = useState([])
-    
+    const [isDone, setIsDone] = useState(false)
+
 
 
     const location = useLocation()
 
-    useEffect(()=>{
+    useEffect(() => {
         setRoomCode(location.state.roomCode)
         setUsername(location.state.username)
-        setUserList(location.state.userList)
-    },[])
+        
+        setUserList(resetUserList(location.state.userList))
+    }, [])
 
+    const resetUserList = (userList) => {
+        const newList = userList.map((user) => {return {...user, isReady: false}})
+        return newList
+    } 
 
-    useEffect(()=> {
-        if(response !== null) {
+    useEffect(() => {
+        if (response !== null) {
             setMovieData(response['results'])
         }
     }, [response])
@@ -58,12 +65,12 @@ export function FilmSwipe() {
         client.onmessage = (message) => {
             const dataFromServer = JSON.parse(message.data);
             console.log('got reply!', dataFromServer)
-            if(dataFromServer){
+            if (dataFromServer) {
                 if (dataFromServer['groupMovies']) {
                     setGroupMovies(dataFromServer['groupMovies'])
                 }
             }
-            
+
         }
     }, [])
 
@@ -73,62 +80,108 @@ export function FilmSwipe() {
         console.log(likedMovies)
         setLastDirection(direction)
         if (direction === "right") {
-          let updatedLikedMovies = likedMovies;
-          updatedLikedMovies.push(movieId)
-          setLikedMovies(updatedLikedMovies);
+            let updatedLikedMovies = likedMovies;
+            updatedLikedMovies.push(movieId)
+            setLikedMovies(updatedLikedMovies);
         }
-        setNumMoviesLeft(prevCount =>prevCount - 1)
+        setNumMoviesLeft(prevCount => prevCount - 1)
     }
 
     const outOfFrame = (name) => {
         console.log(name + ' left the screen!')
     }
     const handleUserFinished = () => {
-        console.log('click')
+        let newGroupList = groupMovies
+        newGroupList.push({ 'username': username, 'likedMovies': likedMovies })
+        setGroupMovies(newGroupList)
         client.send(JSON.stringify({
             type: 'selected_movies',
+            groupMovies: newGroupList
+        }))
+        setIsDone(true)
+
+        const newList = userList.map(user => {
+            if(user.username === username) {
+                return {...user, isReady: true}
+            }
+            return user;
+        })
+        setUserList(newList)
+
+    }
+    const handleTally = () => {
+        client.send(JSON.stringify({
+            type: 'movie_tally',
             groupMovies: groupMovies
         }))
     }
+    const handleParty = () => {
+        console.log('party')
+        let counter = 0;
+        for (let i = 0; i < userList.length; i++) {
+            if (userList[i]['isReady']) {
+                counter++
+            }
+        }
+        console.log(counter, userList.length)
+        if (counter === userList.length && counter > 0) {
+            console.log('tally')
+            client.onopen =()=>client.send(JSON.stringify({
+                type: 'movie_tally',
+                groupMovies: groupMovies,
+                apiMovieList: movieData
+            }))
+        }
+    }
+    useEffect(() => {
+        handleParty()
+    }, [userList])
+    // useEffect(() => {
+    //     if (numMoviesLeft == 0) {
+    //         //to send info to backend and loading
+    //         let newGroupList = groupMovies
+    //         newGroupList.push({ 'username': username, 'likedMovies': likedMovies })
+    //         setGroupMovies(newGroupList)
+    //         console.log(newGroupList)
 
-
-    useEffect(()=>{
-        if (numMoviesLeft == 0) {
-            //to send info to backend and loading
-            let newGroupList = groupMovies
-            newGroupList.push({ 'username': username, 'likedMovies': likedMovies })
-            setGroupMovies(newGroupList)
-            console.log(newGroupList)
-
-          }
-    },[numMoviesLeft])
+    //     }
+    // }, [numMoviesLeft])
 
 
     return (
         <div>
             <link href='https://fonts.googleapis.com/css?family=Damion&display=swap' rel='stylesheet' />
             <link href='https://fonts.googleapis.com/css?family=Alatsi&display=swap' rel='stylesheet' />
-            <h1 className="recommendation" style={{textAlign: 'center'}}>We recommend you:</h1>
+            <h1 className="recommendation" style={{ textAlign: 'center' }}>We recommend you:</h1>
 
             <div>
-            <Container className="tinderCards__cardContainer">
-            {numMoviesLeft === 0 ? <Button variant="contained" onClick={()=> handleUserFinished()}>Done?</Button>: ''}
-                {movieData.map((movie) =>
-                    <TinderCard className="swipe" key={movie.id} onSwipe={(dir) => swiped(dir, movie.id)} onCardLeftScreen={() => outOfFrame(movie.id)}>
+                {isDone ?
+                    <MatchCard />
+                    :
+                    <Container  className="tinderCards__cardContainer">
+                        {numMoviesLeft === 0 ? <Button variant="contained" onClick={() => {
+                        handleUserFinished()
+                        }}>Get Results!</Button>
+                            :
+                            ''
+                        }
+                        {movieData.map((movie) =>
+                            <TinderCard className="swipe" key={movie.id} onSwipe={(dir) => swiped(dir, movie.id)} onCardLeftScreen={() => outOfFrame(movie.id)}>
 
-                        <Card className="card">
-                            <CardMedia component="img"
-                            height="100%"
-                            image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}/>
-                            <h4 className="overlay">{movie.title}</h4>
-                            {/* Buttons */}
-                        </Card>
-                    </TinderCard>
-                )}
-            </Container>
-        </div>
+                                <Card className="card">
+                                    <CardMedia component="img"
+                                        height="100%"
+                                        image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
+                                    <h4 className="overlay">{movie.title}</h4>
 
-            {lastDirection ? <h2 className="choice" style={{textAlign: 'center'}}>You swiped {lastDirection}</h2> : <h2 />}
+                                </Card>
+                            </TinderCard>
+                        )}
+                    </Container>
+                }
+            </div>
+
+            {lastDirection ? <h2 className="choice" style={{ textAlign: 'center' }}>You swiped {lastDirection}</h2> : <h2 />}
         </div>
     )
 }
