@@ -1,5 +1,6 @@
 /* @jest-environment jsdom */
-import { screen, render, waitFor } from '@testing-library/react';
+import { screen, render, waitFor, cleanup } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
@@ -8,12 +9,13 @@ import { loginFunction } from '../../actions';
 import axios from 'axios'
 
 
-describe('LoginForm', () => {
+describe('Login Form', () => {
 
     beforeEach(() => {
         render (<LoginForm />, {wrapper: MemoryRouter})
     })
 
+   
     test('it renders a form', () => {
         const form = screen.getByRole('form');
         expect(form).toBeInTheDocument();
@@ -51,6 +53,13 @@ describe('LoginForm', () => {
     //     expect(loading).toBeInTheDocument()
     // })
    
+    //     test('on submit a loading message renders', async() => {
+    //         <Router>
+    //         const { getByTestId } = render(<LoginForm loading={true}/>)
+    //         const div = getByTestId("loading")
+    //         expect(div).toBeTruthy()
+    //         </Router>
+    //     })
 
     // test('onSubmit is called when submit button is clicked', async() => {
     //     const onSubmit = jest.fn
@@ -61,13 +70,13 @@ describe('LoginForm', () => {
     // })
 
 
-    test('onSubmit is called when submit button is clicked', async() => {
-        const onSubmit = jest.fn()
-        const submit = screen.getByLabelText('Submit')
-        await waitFor(()=>userEvent.click(submit), { timeout: 5000 })
-        expect(onSubmit).toHaveBeenCalled()
+    // test('onSubmit is called when submit button is clicked', async() => {
+    //     const onSubmit = jest.fn()
+    //     const submit = screen.getByLabelText('Submit')
+    //     await waitFor(()=>userEvent.click(submit), { timeout: 5000 })
+    //     expect(onSubmit).toHaveBeenCalled()
         
-    })
+    //})
 
 })
 
