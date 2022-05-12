@@ -21,6 +21,7 @@ export function WaitingRoom() {
         }
 
         client.onmessage = (message) => {
+            console.log('onmessage')
             const dataFromServer = JSON.parse(message.data);
             console.log('got reply!', dataFromServer)
             if (dataFromServer) {
@@ -32,6 +33,7 @@ export function WaitingRoom() {
                     setUserList(dataFromServer['userList'])
                 }
             }
+            console.log('endof onmessage')
         }
 
 
@@ -60,6 +62,7 @@ export function WaitingRoom() {
 
     const joinRoomHandler = (e) => {
         let newList = userList
+        console.log('join handler')
         newList.push({'username':username, 'isReady': false})
         setUserList(newList)
         client.send(JSON.stringify({
@@ -67,6 +70,7 @@ export function WaitingRoom() {
             userList: newList
         }))
         e.preventDefault()
+        console.log('endof join handler')
     }
 
     const handleReadyUp = (e) => {
