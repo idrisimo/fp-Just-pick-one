@@ -102,12 +102,7 @@ class ChatConsumer(WebsocketConsumer):
                 break
         self.send(text_data=json.dumps({'userList':userList}))
 
-        def selected_movies(self, event):
-            message = event['message']
-            username = event['username']
-
-            # Send message to WebSocket
-            self.send(text_data=json.dumps({
-                'username':username,
-                'message': message
-            }))
+    def selected_movies(self, event):
+        groupMovies = event['groupMovies']
+        print(groupMovies)
+        self.send(text_data=json.dumps({'groupMovies': groupMovies}))
