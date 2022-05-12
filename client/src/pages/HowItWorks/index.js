@@ -1,12 +1,15 @@
 import React from "react";
 import { BackButton } from "../../components";
 import { Footer } from "../../layout";
+import "./index.css"
 
 export function HowItWorks() {
 
     return (
         <>
-        <h1>How it Works</h1>
+        <img id="login-reg-logo" src='https://i.ibb.co/StfbjGd/2022-05-06-6.png'/>
+
+        <h1 class="instructions-title">How it Works</h1>
         <main>
             <div id="about">
                 <p>
@@ -22,7 +25,7 @@ export function HowItWorks() {
                 
             </div>
             <div id="instructions">
-                <h3>INSTRUCTIONS</h3>
+                <h3 class="instructions-title">INSTRUCTIONS</h3>
                 <p id="i1">
                    1.  To being matching, we only require the host to have an account. 
                 </p>

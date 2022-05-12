@@ -82,9 +82,9 @@ export function EditForm() {
 
       if(platform!=="Any"){
          platform.map( code => {
-            platformNames += `${platforms.find( p => p.provider_id == code).provider_name},`
+            platformNames += `${platforms.find( p => p.provider_id == code).provider_name}, `
          })
-         platformNames = platformNames.slice(0, -1)
+         platformNames = platformNames.slice(0, -2)
       } else {
          platformNames = platform
       }
@@ -159,24 +159,18 @@ export function EditForm() {
    // }
 
    const renderPlatformOptions = () => {
-      return platforms.map(p => <><input type="checkbox" aria-label="Platforms" name="platforms" value={p.provider_id} onClick={manageMultiPlatformsSelect}/>{p.provider_name}<br/></>)
+      return platforms.map(p => <><div><input type="checkbox" aria-label="Platforms" name="platforms" value={p.provider_id} onClick={manageMultiPlatformsSelect}/>{p.provider_name}</div><br/></>)
    }
 
-   const renderMessage = () => {
-      return(
-         <><h2>You don't have any preference</h2></>
-      )
-   }
+  
 
    return(
       <>
-
-
          <h2 class="form-titles">Your current preferences: </h2>
          <div id="user-previous-preferences">
             {loading && (<div id="loading">Loading Preferences . . .</div>)}
             {prefStatus && renderUserPreferences()}
-            {!prefStatus && renderMessage()}
+            {!prefStatus && <h3>You don't have any preferences</h3>}
          </div>
 
          <h2 class="form-titles">Edit your preferences: </h2>
@@ -184,8 +178,8 @@ export function EditForm() {
            
             <label htmlFor="Genre">Genre: </label>
             <div id="genres-wrapper">
-               {renderGenreOptions()}<br/>
-            </div>
+               {renderGenreOptions()}
+            </div><br/>
 
             <label htmlFor="Year">Year: </label>
             <input type="number" aria-label="Year" name="year" onChange={updateInput}/><br/><br/>
@@ -196,7 +190,9 @@ export function EditForm() {
             </select><br/><br/>
 
             <label htmlFor="Platforms">Platforms: </label><br/>
+               <div id="platforms-wrapper">
                {renderPlatformOptions()}<br/>
+               </div>
 
             <input type="submit" className="submitBtn" value="Save" style={{cursor: 'pointer'}}/><br/><br/>
          </form>
