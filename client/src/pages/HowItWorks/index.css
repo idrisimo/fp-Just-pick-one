@@ -1,0 +1,7 @@
+div#about, div#instructions {
+   font-size: 25px;
+}
+
+.instructions-title {
+   color: rgb(237, 136, 99);
+}
