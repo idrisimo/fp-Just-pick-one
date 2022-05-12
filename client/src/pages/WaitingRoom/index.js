@@ -14,7 +14,8 @@ export function WaitingRoom() {
     const [value, setValue] = useState('')
     const [username, setUsername] = useState(location.state.username)
     const [roomCode, setRoomCode] = useState(location.state.roomCode)
-    const [userList, setUserList] = useState([{ 'username': username, 'isReady': false }])
+    const [userList, setUserList] = useState([])
+    // const [groupUsers, setGroupUsers] = useState([])
     const [partyReady, setPartyReady] = useState(false)
 
     const navigate = useNavigate();
@@ -24,12 +25,10 @@ export function WaitingRoom() {
     // const client = new W3CWebSocket(`ws://just-pick-1-api.herokuapp.com/ws/rooms/${roomCode}/`)
 
     useEffect(() => {
-        
+
         client.onopen = () => {
             console.log('Websocket client connected')
-            
         }
-
         client.onmessage = (message) => {
             const dataFromServer = JSON.parse(message.data);
             console.log('got reply!', dataFromServer)
@@ -38,19 +37,29 @@ export function WaitingRoom() {
                     msg: dataFromServer.message,
                     username: dataFromServer.username,
                 }))
-                // joinRoomHandler()
+                // console.log('data', dataFromServer)
                 if (dataFromServer['userList']) {
                     console.log('userlist stuff')
-                    setUserList(dataFromServer['userList'])
-                    joinRoomHandler()
+                    console.log(userList)
+                    console.log(dataFromServer['userList'])
+                    // setUserList(dataFromServer['userList'])
+                    setUserList((userList) => [...userList, dataFromServer['userList']])
+                    
+                    console.log(userList)
                 }
             }
+
         }
 
     }, [])
 
+    // useEffect(()=>{
+    //     joinRoomHandler()
+    // },[username])
+
     useEffect(() => {
         handleParty()
+        // joinRoomHandler()
     }, [userList])
 
     const handleParty = () => {
@@ -61,7 +70,7 @@ export function WaitingRoom() {
             }
         }
         if (counter === userList.length && isLoggedIn && counter > 0) {
-            navigate('/filmswipe', { state: { roomCode: roomCode, username: username, userList: userList } })
+            // navigate('/filmswipe', { state: { roomCode: roomCode, username: username, userList: userList } })
         }
     }
 
@@ -78,14 +87,18 @@ export function WaitingRoom() {
 
     const joinRoomHandler = () => {
         let newList = userList
+        console.log('join room')
+        console.log(userList)
+        console.log(newList)
         if(newList.includes(username, 0)){
             console.log('user exists')
         } else{
             let newList = userList
         
             newList.push({ 'username': username, 'isReady': false })
-    
-            client.send(JSON.stringify({
+            // newList.push(serverList)
+            console.log(newList)
+           client.onopen = () => client.send(JSON.stringify({
                 type: 'known_users',
                 userList: newList
             }))
@@ -104,7 +117,7 @@ export function WaitingRoom() {
             }
             return user;
         })
-        setUserList(newList)
+        // setUserList(newList)
         client.send(JSON.stringify({
             type: 'known_users',
             userList: newList
@@ -139,7 +152,7 @@ export function WaitingRoom() {
                         <form onSubmit={(e) => {
                             // setRoomCode(e.target[0].value)
                             setIsLoggedIn(true)
-                            joinRoomHandler(e)
+                            // joinRoomHandler(e)
                         }}>
                             <input id="username" type="text" size="20" onChange={e => setUsername(e.target.value)}></input>
                             <br></br>
