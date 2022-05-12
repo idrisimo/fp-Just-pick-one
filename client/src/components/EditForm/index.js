@@ -1,6 +1,4 @@
-import axios from "axios";
 import React, {useEffect, useState} from "react";
-import { useNavigate } from "react-router-dom";
 import { createPreferences, getPreferences } from "../../actions";
 
 
@@ -16,9 +14,9 @@ export function EditForm() {
       "platform": null
    });
 
-   const genres = [{"id":28,"name":"Action"},{"id":12,"name":"Adventure"},{"id":16,"name":"Animation"},{"id":35,"name":"Comedy"},{"id":80,"name":"Crime"},{"id":99,"name":"Documentary"},{"id":18,"name":"Drama"},{"id":10751,"name":"Family"},{"id":14,"name":"Fantasy"},{"id":36,"name":"History"},{"id":27,"name":"Horror"},{"id":10402,"name":"Music"},{"id":9648,"name":"Mystery"},{"id":10749,"name":"Romance"},{"id":878,"name":"Science Fiction"},{"id":10770,"name":"TV Movie"},{"id":53,"name":"Thriller"},{"id":10752,"name":"War"},{"id":37,"name":"Western"}]
+   const genres = [{"id":28,"genre_name":"Action"},{"id":12,"genre_name":"Adventure"},{"id":16,"genre_name":"Animation"},{"id":35,"genre_name":"Comedy"},{"id":80,"genre_name":"Crime"},{"id":99,"genre_name":"Documentary"},{"id":18,"genre_name":"Drama"},{"id":10751,"genre_name":"Family"},{"id":14,"genre_name":"Fantasy"},{"id":36,"genre_name":"History"},{"id":27,"genre_name":"Horror"},{"id":10402,"genre_name":"Music"},{"id":9648,"genre_name":"Mystery"},{"id":10749,"genre_name":"Romance"},{"id":878,"genre_name":"Science Fiction"},{"id":10770,"genre_name":"TV Movie"},{"id":53,"genre_name":"Thriller"},{"id":10752,"genre_name":"War"},{"id":37,"genre_name":"Western"}]
 
-   const countries= [{"value": null, "name": "--No Country Preferences--"},{"value": "AL", "Albania": "Spain"},{"value": "AT", "name": "Austria"},{"value": "BY", "name": "Belarus"},{"value": "BE", "name": "Belgium"},{"value": "BA", "name": "Bosnia and Herzegovina"},{"value": "BG", "name": "Bulgaria"},{"value": "HR", "name": "Croatia"},{"value": "CY", "name": "Cyprus"},{"value": "CZ", "name": "Czech Republic"},{"value": "DK", "name": "Denmark"},{"value": "EE", "name": "Estonia"},{"value": "FI", "name": "Finland"},{"value": "FR", "name": "France"},{"value": "DE", "name": "Germany"},{"value": "GI", "name": "Gibraltar"},{"value": "GR", "name": "Greece"},{"value": "HU", "name": "Hungary"},{"value": "IS", "name": "Iceland"},{"value": "IE", "name": "Ireland"},{"value": "IT", "name": "Italy"},{"value": "LV", "name": "Latvia"},{"value": "LT", "name": "Lithuania"},{"value": "LU", "name": "Luxembourg"},{"value": "MK", "name": "Macedonia"},{"value": "MT", "name": "Malta"},{"value": "MD", "name": "Moldova"},{"value": "MC", "name": "Monaco"},{"value": "ME", "name": "Montenegro"},{"value": "NL", "name": "Netherlands"},{"value": "NO", "name": "Norway"},{"value": "PL", "name": "Poland"},{"value": "PT", "name": "Portugal"},{"value": "RO", "name": "Romania"},{"value": "RS", "name": "Serbia"},{"value": "SK", "name": "Slovakia"},{"value": "SI", "name": "Slovenia"},{"value": "ES", "name": "Spain"},{"value": "SE", "name": "Sweden"},{"value": "CH", "name": "Switzerland"},{"value": "UA", "name": "Ukraine"},{"value": "GB", "name": "United Kingdom"},{"value": "RS", "name": "Yugoslavia"}]
+   const countries= [{"value": null, "name": "--No Country Preferences--"},{"value": "AL", "name": "Albania"},{"value": "AT", "name": "Austria"},{"value": "BY", "name": "Belarus"},{"value": "BE", "name": "Belgium"},{"value": "BA", "name": "Bosnia and Herzegovina"},{"value": "BG", "name": "Bulgaria"},{"value": "HR", "name": "Croatia"},{"value": "CY", "name": "Cyprus"},{"value": "CZ", "name": "Czech Republic"},{"value": "DK", "name": "Denmark"},{"value": "EE", "name": "Estonia"},{"value": "FI", "name": "Finland"},{"value": "FR", "name": "France"},{"value": "DE", "name": "Germany"},{"value": "GI", "name": "Gibraltar"},{"value": "GR", "name": "Greece"},{"value": "HU", "name": "Hungary"},{"value": "IS", "name": "Iceland"},{"value": "IE", "name": "Ireland"},{"value": "IT", "name": "Italy"},{"value": "LV", "name": "Latvia"},{"value": "LT", "name": "Lithuania"},{"value": "LU", "name": "Luxembourg"},{"value": "MK", "name": "Macedonia"},{"value": "MT", "name": "Malta"},{"value": "MD", "name": "Moldova"},{"value": "MC", "name": "Monaco"},{"value": "ME", "name": "Montenegro"},{"value": "NL", "name": "Netherlands"},{"value": "NO", "name": "Norway"},{"value": "PL", "name": "Poland"},{"value": "PT", "name": "Portugal"},{"value": "RO", "name": "Romania"},{"value": "RS", "name": "Serbia"},{"value": "SK", "name": "Slovakia"},{"value": "SI", "name": "Slovenia"},{"value": "ES", "name": "Spain"},{"value": "SE", "name": "Sweden"},{"value": "CH", "name": "Switzerland"},{"value": "UA", "name": "Ukraine"},{"value": "GB", "name": "United Kingdom"},{"value": "RS", "name": "Yugoslavia"}]
    
    const platforms = [{"provider_id": 8,"provider_name": "Netflix"},{"provider_id": 9,"provider_name": "Amazon Prime"},{"provider_id": 337,"provider_name": "Disney +"},{"provider_id": 350,"provider_name": "Apple TV"},{"provider_id": 188,"provider_name": "Youtube Premium"},{"provider_id": 15,"provider_name": "Hulu"},{"provider_id": 210,"provider_name": "Sky"},{"provider_id": 531,"provider_name": "Paramount +"}]
 
@@ -61,12 +59,18 @@ export function EditForm() {
       let country = userPreferences.country ? userPreferences.country : "Any"
       const year = userPreferences.year ? userPreferences.year : "Any"
       const platform = userPreferences.platform ? userPreferences.platform.split(",") : "Any"
+      console.log(genre)
+      console.log(country)
+      console.log(year)
+      console.log(platform)
       let genreNames = ""
       let platformNames = ""
 
       if(genre!=="Any"){
          genre.map( code => {
-            genreNames += `${genres.find( g => g.id == code).name},`
+            const g = genres.find(g => g.id === parseInt(code)).genre_name
+            console.log(g)
+            genreNames += `${g},`
          })
          genreNames = genreNames.slice(0, -1)
       } else {
@@ -74,7 +78,7 @@ export function EditForm() {
       }
 
       if(country!="Any"){
-         country = countries.find( c => c.value == country).name
+         country = countries.find( c => c.value === country).name
       }
 
       if(platform!=="Any"){
@@ -85,6 +89,7 @@ export function EditForm() {
       } else {
          platformNames = platform
       }
+
 
       return (
          <>
@@ -134,7 +139,7 @@ export function EditForm() {
    }
 
    const renderGenreOptions = () => {
-      return genres.map(genre => <><input type="checkbox" aria-label="Genre" name="genre" value={genre.id} onClick={manageMultiGenreSelect}/>{genre.name}<br/></>)
+      return genres.map(genre => <><input type="checkbox" aria-label="Genre" name="genre" value={genre.id} onClick={manageMultiGenreSelect}/>{genre.genre_name}<br/></>)
    }
    
    const renderCountryOptions = () => {
