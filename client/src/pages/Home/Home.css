@@ -16,7 +16,6 @@ main {
 }
 
 #NavButton.navBtn {
-    margin-top: 20px;   
     border: none;
     padding: 14px 28px;
     font-size: 20px;
@@ -32,8 +31,8 @@ main {
 }
 
 input {
-    margin-top: 5vh;
-    padding: 20px;
+    margin-top: 2vh;
+    padding: 8px;
     font-size: 20px;
     justify-content: center;
     color: darkred;
@@ -48,4 +47,7 @@ input {
     transform: scale(1.3) perspective(1px)
 }
 
-  
+img#logo {
+    border-radius: 30px;
+    margin-bottom: 20px;
+}

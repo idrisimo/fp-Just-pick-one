@@ -44,9 +44,9 @@ export function LoginForm() {
         <form aria-label="form" role="form" id="loginForm" name="loginForm" onSubmit={handleSubmit}>
             <main>
             <label htmlFor="Username">Username:</label>
-            <input type="text" aria-label="Username" name="username" onChange={updateInput} required />
+            <input id="input-username" type="text" aria-label="Username" name="username" onChange={updateInput} required />
             <label htmlFor="Password">Password:</label>
-            <input type="password" aria-label="Password" name="password" onChange={updateInput} required/>
+            <input type="password" aria-label="Password" name="password" onChange={updateInput} required/><br/>
             <input type="submit" aria-label="Submit" className="submitBtn" value="Login" style={{cursor: 'pointer'}}/>
             <p id="change" onClick={() => navigateTo('/Register')} style={{cursor: 'pointer'}}>Don't have an account yet? Register here!</p>
             </main>
