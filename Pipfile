@@ -44,6 +44,8 @@ Django = "==4.0.4"
 Automat = "==20.2.0"
 PyJWT = "==2.3.0"
 pyOpenSSL = "==22.0.0"
+django-nose = "*"
+coverage = "*"
 
 [dev-packages]
 

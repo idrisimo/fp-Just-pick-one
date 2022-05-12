@@ -58,7 +58,7 @@ export function UsedPreferences() {
 
     return (
         <>
-        <form id="UsedPrefForm" onSubmit={handleSubmit}>
+        <form aria-label="form" id="UsedPrefForm" onSubmit={handleSubmit}>
             {renderHiddenInputs()}
             <label htmlFor="numPeople">Number of people:</label>
             <input type="number" name="numPeople" min="2" max="10" value={players || "2"} onChange={handleInput}/>
