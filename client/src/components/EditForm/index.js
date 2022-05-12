@@ -136,7 +136,7 @@ export function EditForm() {
    }
 
    const renderGenreOptions = () => {
-      return genres.map(genre => <><input type="checkbox" aria-label="Genre" name="genre" value={genre.id} onClick={manageMultiGenreSelect}/>{genre.genre_name}<br/></>)
+      return genres.map(genre => <><div><input type="checkbox" aria-label="Genre" name="genre" value={genre.id} onClick={manageMultiGenreSelect}/>{genre.genre_name}<br/></div></>)
    }
    
    const renderCountryOptions = () => {
@@ -172,17 +172,20 @@ export function EditForm() {
       <>
 
 
-         <h2>Your current preferences: </h2>
+         <h2 class="form-titles">Your current preferences: </h2>
          <div id="user-previous-preferences">
             {loading && (<div id="loading">Loading Preferences . . .</div>)}
             {prefStatus && renderUserPreferences()}
             {!prefStatus && renderMessage()}
          </div>
 
-         <h2>Edit your preferences: </h2>
+         <h2 class="form-titles">Edit your preferences: </h2>
          <form aria-label="editPreferencesForm" id="edit-preferences-form" onSubmit={handleSubmit}>
-            <label htmlFor="Genre">Genre: </label><br/>
-            {renderGenreOptions()}<br/>
+           
+            <label htmlFor="Genre">Genre: </label>
+            <div id="genres-wrapper">
+               {renderGenreOptions()}<br/>
+            </div>
 
             <label htmlFor="Year">Year: </label>
             <input type="number" aria-label="Year" name="year" onChange={updateInput}/><br/><br/>
