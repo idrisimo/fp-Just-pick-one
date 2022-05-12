@@ -10,7 +10,7 @@ import { MatchCard } from "../../components";
 
 export function FilmSwipe() {
 
-    // const { response, error, loading } = useAxios({ url: "http://127.0.0.1:8000/get_movies/" })
+
     const { response, error, loading } = useAxiosPost({
         url: "http://127.0.0.1:8000/get_movies/",
         header: JSON.stringify({
@@ -32,7 +32,7 @@ export function FilmSwipe() {
     const [likedMovies, setLikedMovies] = useState([])
     const [groupMovies, setGroupMovies] = useState([])
     const [isDone, setIsDone] = useState(false)
-
+    const [winningMovie, setWinningMovie] = useState({})
 
 
     const location = useLocation()
@@ -40,7 +40,6 @@ export function FilmSwipe() {
     useEffect(() => {
         setRoomCode(location.state.roomCode)
         setUsername(location.state.username)
-        
         setUserList(resetUserList(location.state.userList))
     }, [])
 
@@ -68,6 +67,9 @@ export function FilmSwipe() {
             if (dataFromServer) {
                 if (dataFromServer['groupMovies']) {
                     setGroupMovies(dataFromServer['groupMovies'])
+                }else if(dataFromServer['winningMovie']) {
+                    setWinningMovie(dataFromServer['winningMovie'])
+                    console.log(dataFromServer['winningMovie'])
                 }
             }
 
@@ -76,8 +78,8 @@ export function FilmSwipe() {
 
 
     const swiped = (direction, movieId) => {
-        console.log('removing: ' + movieId)
-        console.log(likedMovies)
+        // console.log('removing: ' + movieId)
+ 
         setLastDirection(direction)
         if (direction === "right") {
             let updatedLikedMovies = likedMovies;
@@ -88,7 +90,7 @@ export function FilmSwipe() {
     }
 
     const outOfFrame = (name) => {
-        console.log(name + ' left the screen!')
+        // console.log(name + ' left the screen!')
     }
     const handleUserFinished = () => {
         let newGroupList = groupMovies
@@ -116,16 +118,15 @@ export function FilmSwipe() {
         }))
     }
     const handleParty = () => {
-        console.log('party')
+
         let counter = 0;
         for (let i = 0; i < userList.length; i++) {
             if (userList[i]['isReady']) {
                 counter++
             }
         }
-        console.log(counter, userList.length)
+
         if (counter === userList.length && counter > 0) {
-            console.log('tally')
             client.onopen =()=>client.send(JSON.stringify({
                 type: 'movie_tally',
                 groupMovies: groupMovies,
@@ -136,17 +137,14 @@ export function FilmSwipe() {
     useEffect(() => {
         handleParty()
     }, [userList])
-    // useEffect(() => {
-    //     if (numMoviesLeft == 0) {
-    //         //to send info to backend and loading
-    //         let newGroupList = groupMovies
-    //         newGroupList.push({ 'username': username, 'likedMovies': likedMovies })
-    //         setGroupMovies(newGroupList)
-    //         console.log(newGroupList)
 
-    //     }
-    // }, [numMoviesLeft])
+    // const handleWinning = () => {
+    //    setWinningMovie(winningMovie)
+    // }
 
+    useEffect(() => {
+        console.log(winningMovie)
+    }, [winningMovie])
 
     return (
         <div>
@@ -156,7 +154,8 @@ export function FilmSwipe() {
 
             <div>
                 {isDone ?
-                    <MatchCard />
+
+                    <MatchCard winMovie={winningMovie}/>
                     :
                     <Container  className="tinderCards__cardContainer">
                         {numMoviesLeft === 0 ? <Button variant="contained" onClick={() => {
