@@ -3,6 +3,8 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket'
 import { BackButton, UserCard } from "../../components";
 import { Container, FormControlLabel, Switch, FormGroup, Paper, Card, CardHeader, Grid } from '@mui/material'
 import { maxWidth } from "@mui/system";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 export function WaitingRoom() {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -11,7 +13,10 @@ export function WaitingRoom() {
     const [username, setUsername] = useState('idris')
     const [roomCode, setRoomCode] = useState('test')
     const [userList, setUserList] = useState([])
+    const [partyReady, setPartyReady] = useState(false)
 
+
+    const navigate = useNavigate();
     const client = new W3CWebSocket(`ws://127.0.0.1:8000/ws/rooms/${roomCode}/`)
     // const client = new W3CWebSocket(`ws://just-pick-1-api.herokuapp.com/ws/rooms/${roomCode}/`)
 
@@ -38,6 +43,22 @@ export function WaitingRoom() {
 
 
     }, [])
+    useEffect(() => {
+        handleParty()
+    }, [userList])
+
+    const handleParty = () => {
+        let counter = 0;
+        for (let i = 0; i < userList.length; i++) {
+            if (userList[i]['isReady']) {
+                counter++
+            }
+        }
+        if (counter === userList.length && isLoggedIn && counter > 0) {
+            navigate('/filmswipe', { state: { roomCode: roomCode, username: username, userList: userList } })
+        }
+    }
+
 
     // Checks if use has left the page. Sends message to backend with current user list and the user that has disconnected.
     window.onbeforeunload = () => {

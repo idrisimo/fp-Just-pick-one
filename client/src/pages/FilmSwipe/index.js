@@ -4,7 +4,7 @@ import './FilmSwipe.css'
 import { Card, CardMedia, Container } from '@mui/material';
 import useAxios from "../../hooks/useAxios";
 import useAxiosPost from "../../hooks/useAxiosPost";
-
+import { useLocation } from "react-router-dom";
 
 
 export function FilmSwipe() {
@@ -21,18 +21,48 @@ export function FilmSwipe() {
     })
 
 
-    console.log(response)
+    const [roomCode, setRoomCode] = useState('bob')
+    const [username, setUsername] = useState('')
+    const [userList, setUserList] = useState([])
 
     const [numMoviesLeft, setNumMoviesLeft] = useState(20) 
     const [lastDirection, setLastDirection] = useState('')
     const [movieData, setMovieData] = useState([])
     const [likedMovies, setLikedMovies] = useState([])
 
+    const location = useLocation()
+
+    useEffect(()=>{
+        setRoomCode(location.state.roomCode)
+        setUsername(location.state.username)
+        setUserList(location.state.userList)
+    },[])
+
+
     useEffect(()=> {
         if(response !== null) {
             setMovieData(response['results'])
         }
     }, [response])
+
+    const client = new W3CWebSocket(`ws://127.0.0.1:8000/ws/rooms/1${roomCode}/`)
+
+    useEffect(() => {
+        client.onopen = () => {
+            console.log('Websocket client connected')
+        }
+
+        client.onmessage = (message) => {
+            const dataFromServer = JSON.parse(message.data);
+            console.log('got reply!', dataFromServer)
+            if(dataFromServer){
+                if (dataFromServer['groupMovies']) {
+                    setGroupMovies(dataFromServer['groupMovies'])
+                }
+            }
+            
+        }
+    }, [])
 
 
     const swiped = (direction, movieId) => {
@@ -44,7 +74,7 @@ export function FilmSwipe() {
           updatedLikedMovies.push(movieId)
           setLikedMovies(updatedLikedMovies);
         }
-        setNumMoviesLeft(numMoviesLeft-1);
+        setNumMoviesLeft(prevCount =>prevCount - 1)
     }
 
     const outOfFrame = (name) => {
@@ -53,11 +83,15 @@ export function FilmSwipe() {
 
     if (numMoviesLeft == 0) {
       //to send info to backend and loading
+      let newGroupList = groupMovies
+      newGroupList.push({ 'username': username, 'likedMovies': likedMovies })
+      setGroupMovies(newGroupList)
+      console.log(newGroupList)
     }
 
     return (
         <div>
-                        <link href='https://fonts.googleapis.com/css?family=Damion&display=swap' rel='stylesheet' />
+            <link href='https://fonts.googleapis.com/css?family=Damion&display=swap' rel='stylesheet' />
             <link href='https://fonts.googleapis.com/css?family=Alatsi&display=swap' rel='stylesheet' />
             <h1 className="recommendation" style={{textAlign: 'center'}}>We recommend you:</h1>
 
