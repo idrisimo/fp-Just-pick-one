@@ -1,6 +1,10 @@
 import React, {useState} from "react";
+import { genres, platforms, countries } from "../../data/data"
+import { useNavigate } from 'react-router-dom';
 
 export function NewGameForm() {
+
+   const navigateTo = useNavigate();
 
    const [ formInput, setFormInput ] = useState({
       "genre": null,
@@ -19,6 +23,7 @@ export function NewGameForm() {
       try{
          console.log("Send data to the waiting room?")
          console.log(formInput)
+         navigateTo("/UsedPreferences")
       } catch(err) {
       }
    }
@@ -94,7 +99,7 @@ export function NewGameForm() {
                {renderPlatformOptions()}<br/>
                </div>
 
-            <input type="submit" className="submitBtn" value="Save" style={{cursor: 'pointer'}}/><br/><br/>
+            <input type="submit" className="submitBtn" value="NEXT" style={{cursor: 'pointer'}}/><br/><br/>
          </form>
 
       </>
