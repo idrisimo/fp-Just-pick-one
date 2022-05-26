@@ -1,0 +1,27 @@
+div#user-previous-preferences{
+   border: 2px solid white;
+   font-size: 20px;
+}
+
+div#genres-wrapper, div#platforms-wrapper {
+   text-align: center;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-around;
+}
+
+form#edit-preferences-form select {
+   padding: 8px;
+}
+
+h2.form-titles {
+   color: rgb(237, 136, 99);
+}
+
+
+form#edit-preferences-form input[type=checkbox]{
+   width: 45px;
+  height: 15px;
+  background: #555;
+  border-radius: 5px;
+}

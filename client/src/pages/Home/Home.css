@@ -1,0 +1,53 @@
+main {
+    text-align: center;
+    justify-content: center;
+      
+}
+
+#navBtnDiv {
+  margin-top: 0.5vh;   
+  display: block;
+  border: none;
+  padding: 14px 28px;
+  font-size: px;
+  cursor: pointer;
+  justify-content: center;
+  
+}
+
+#NavButton.navBtn {
+    border: none;
+    padding: 14px 28px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    justify-content: center;
+    color: darkred;
+    border-radius: 10px;
+}
+
+#NavButton.navBtn:hover {
+    transform: scale(1.3) perspective(1px)
+}
+
+input {
+    margin-top: 2vh;
+    padding: 8px;
+    font-size: 20px;
+    justify-content: center;
+    color: darkred;
+}
+
+#joinRoomBtn {
+    border-radius: 10px;
+}
+
+
+#joinRoomBtn:hover {
+    transform: scale(1.3) perspective(1px)
+}
+
+img#logo {
+    border-radius: 30px;
+    margin-bottom: 20px;
+}
